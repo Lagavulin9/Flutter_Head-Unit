@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/pages/settings.dart';
 import 'package:flutter_head_unit/ui/app_drawer.dart';
 import 'package:flutter_head_unit/ui/clock.dart';
 import 'package:flutter_head_unit/ui/gear_selection.dart';
@@ -82,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Expanded(
             child: Stack(
           children: [
-            Center(child: Text("$_selectedIndex")),
+            Center(child: Settings()),
             const Positioned(top: 15, right: 20, child: Clock(size: 20))
           ],
         ))
