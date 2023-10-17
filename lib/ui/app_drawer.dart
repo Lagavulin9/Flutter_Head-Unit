@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/pages/car_info.dart';
+import 'package:flutter_head_unit/pages/music_player.dart';
+import 'package:flutter_head_unit/pages/settings.dart';
+import 'package:flutter_head_unit/pages/video_player.dart';
+import 'package:flutter_head_unit/provider/app_controller.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -26,6 +32,8 @@ class AppDrawer extends StatelessWidget {
                     style: TextStyle(fontSize: 30),
                   ),
                   onTap: () {
+                    Provider.of<AppController>(context, listen: false)
+                        .updatePage(MusicPlayer());
                     Navigator.pop(context);
                   }),
               ListTile(
@@ -35,6 +43,8 @@ class AppDrawer extends StatelessWidget {
                     style: TextStyle(fontSize: 30),
                   ),
                   onTap: () {
+                    Provider.of<AppController>(context, listen: false)
+                        .updatePage(VideoPlayer());
                     Navigator.pop(context);
                   }),
               ListTile(
@@ -44,6 +54,8 @@ class AppDrawer extends StatelessWidget {
                     style: TextStyle(fontSize: 30),
                   ),
                   onTap: () {
+                    Provider.of<AppController>(context, listen: false)
+                        .updatePage(CarInfo());
                     Navigator.pop(context);
                   }),
               ListTile(
@@ -53,6 +65,8 @@ class AppDrawer extends StatelessWidget {
                     style: TextStyle(fontSize: 30),
                   ),
                   onTap: () {
+                    Provider.of<AppController>(context, listen: false)
+                        .updatePage(Settings());
                     Navigator.pop(context);
                   })
             ],
