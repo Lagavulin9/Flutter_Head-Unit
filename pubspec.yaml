@@ -35,6 +35,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  window_manager: ^0.3.7
+  provider: ^6.0.5
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -88,3 +91,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  fonts:
+    - family: Kanit
+      fonts:
+        - asset: fonts/Kanit/Kanit-Regular.ttf
+        - asset: fonts/Kanit/Kanit-Medium.ttf
+        - asset: fonts/Kanit/Kanit-SemiBold.ttf
+        - asset: fonts/Kanit/Kanit-Bold.ttf
+        - asset: fonts/Kanit/Kanit-ExtraBold.ttf
