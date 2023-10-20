@@ -4,6 +4,7 @@ import 'package:flutter_head_unit/provider/app_controller.dart';
 import 'package:flutter_head_unit/ui/app_drawer.dart';
 import 'package:flutter_head_unit/ui/clock.dart';
 import 'package:flutter_head_unit/ui/gear_selection.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -11,13 +12,14 @@ const double displayWidth = 1024;
 const double displayHeight = 600;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MediaKit.ensureInitialized();
   // Must add this line.
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
     size: Size(displayWidth, displayHeight),
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden,
+    //skipTaskbar: false,
+    //titleBarStyle: TitleBarStyle.hidden,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
