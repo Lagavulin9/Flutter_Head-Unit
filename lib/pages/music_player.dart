@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/ui/music_player.dart';
 import 'package:media_kit/media_kit.dart';
 
 class MusicInfo {
@@ -77,49 +78,38 @@ class _MusicPlayerState extends State<MusicPlayer> {
             ),
             SliverFillRemaining(
               child: Row(children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        CupertinoListSection.insetGrouped(
-                          header: const Text("Local Storage"),
-                          //header: CupertinoSearchTextField(placeholder: "Search"),
-                          children: [
-                            ...widget.fromStorage.map((item) {
-                              return CupertinoListTile.notched(
-                                  title: Text(item.title),
-                                  onTap: () {
-                                    open_media(item);
-                                  });
-                            })
-                          ],
-                        ),
-                        CupertinoListSection.insetGrouped(
-                          header: const Text("Media Server"),
-                          children: [
-                            ...widget.fromServer.map((item) {
-                              return CupertinoListTile.notched(
-                                  title: Text(item.title), onTap: () {});
-                            })
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Row(children: [
-                  CupertinoButton(
-                      child: Icon(Icons.pause),
-                      onPressed: () {
-                        player.pause();
-                      }),
-                  CupertinoButton(
-                      child: Icon(Icons.play_arrow),
-                      onPressed: () {
-                        player.pause();
-                      })
-                ])
+                // Container(
+                //   width: MediaQuery.of(context).size.width * 0.25,
+                //   child: SingleChildScrollView(
+                //     child: Column(
+                //       children: [
+                //         CupertinoListSection.insetGrouped(
+                //           header: const Text("Local Storage"),
+                //           //header: CupertinoSearchTextField(placeholder: "Search"),
+                //           children: [
+                //             ...widget.fromStorage.map((item) {
+                //               return CupertinoListTile.notched(
+                //                   title: Text(item.title),
+                //                   onTap: () {
+                //                     open_media(item);
+                //                   });
+                //             })
+                //           ],
+                //         ),
+                //         CupertinoListSection.insetGrouped(
+                //           header: const Text("Media Server"),
+                //           children: [
+                //             ...widget.fromServer.map((item) {
+                //               return CupertinoListTile.notched(
+                //                   title: Text(item.title), onTap: () {});
+                //             })
+                //           ],
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                AudioPlayerScreen()
               ]),
             )
           ]),

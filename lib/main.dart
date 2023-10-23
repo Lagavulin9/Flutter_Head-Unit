@@ -5,6 +5,7 @@ import 'package:flutter_head_unit/ui/app_drawer.dart';
 import 'package:flutter_head_unit/ui/clock.dart';
 import 'package:flutter_head_unit/ui/gear_selection.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:metadata_god/metadata_god.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -13,6 +14,7 @@ const double displayHeight = 600;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
+  MetadataGod.initialize();
   // Must add this line.
   await windowManager.ensureInitialized();
 
