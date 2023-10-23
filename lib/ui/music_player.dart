@@ -103,6 +103,8 @@ class AudioPlayerScreen extends StatefulWidget {
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   late AudioPlayer _audioPlayer;
   late ConcatenatingAudioSource _playlist;
+  bool isShuffleEnabled = false;
+  LoopMode loopmode = LoopMode.all;
 
   Future<void> _loadAudioSources() async {
     // Load metadata and create audio sources asynchronously.
@@ -125,17 +127,6 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     ]);
   }
 
-  // final _playlist = ConcatenatingAudioSource(children: [
-  //   AudioSource.file('/home/jinholee/media_repo/audios/happy-day.mp3',
-  //       tag: MetadataGod.readMetadata(
-  //           file: '/home/jinholee/media_repo/audios/happy-day.mp3')),
-  //   AudioSource.file(
-  //       '/home/jinholee/Downloads/TheFatRat - The Calling (feat. Laura Brehm).mp3',
-  //       tag: MetadataGod.readMetadata(
-  //           file:
-  //               '/home/jinholee/Downloads/TheFatRat - The Calling (feat. Laura Brehm).mp3'))
-  // ]);
-
   Stream<PositionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
           _audioPlayer.positionStream,
@@ -143,6 +134,30 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
           _audioPlayer.durationStream,
           (position, bufferedPosition, duration) => PositionData(
               position, bufferedPosition, duration ?? Duration.zero));
+
+  void onShuffle() async {
+    isShuffleEnabled = !isShuffleEnabled;
+    await _audioPlayer.setShuffleModeEnabled(isShuffleEnabled);
+    setState(() {});
+  }
+
+  void onLoop() async {
+    switch (loopmode) {
+      case LoopMode.all:
+        loopmode = LoopMode.one;
+        break;
+      case LoopMode.one:
+        loopmode = LoopMode.off;
+        break;
+      case LoopMode.off:
+        loopmode = LoopMode.all;
+        break;
+      default:
+        loopmode = LoopMode.all;
+    }
+    await _audioPlayer.setLoopMode(loopmode);
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -218,6 +233,13 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
+                onPressed: onShuffle,
+                icon: isShuffleEnabled
+                    ? const Icon(Icons.shuffle_on_rounded)
+                    : const Icon(Icons.shuffle_rounded),
+                iconSize: 50,
+              ),
+              IconButton(
                 onPressed: _audioPlayer.seekToPrevious,
                 icon: const Icon(Icons.skip_previous_rounded),
                 iconSize: 50,
@@ -226,6 +248,15 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
               IconButton(
                 onPressed: _audioPlayer.seekToPrevious,
                 icon: const Icon(Icons.skip_next_rounded),
+                iconSize: 50,
+              ),
+              IconButton(
+                onPressed: onLoop,
+                icon: loopmode == LoopMode.all
+                    ? const Icon(Icons.loop_rounded)
+                    : loopmode == LoopMode.one
+                        ? const Icon(Icons.looks_one_rounded)
+                        : const Icon(Icons.stop_rounded),
                 iconSize: 50,
               ),
             ],

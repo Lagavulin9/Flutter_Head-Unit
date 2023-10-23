@@ -45,24 +45,17 @@ class MusicPlayer extends StatefulWidget {
 }
 
 class _MusicPlayerState extends State<MusicPlayer> {
-  final Player player = Player();
-  final playable = Media(
-      'https://github.com/Lagavulin9/media_repo/raw/main/audios/happy-day.mp3');
-
   @override
   void initState() {
     super.initState();
-    player.open(playable, play: false);
   }
 
   @override
   void dispose() {
-    player.dispose();
     super.dispose();
   }
 
   void open_media(MusicInfo item) {
-    player.open(Media(item.url));
     setState(() {});
   }
 
@@ -77,40 +70,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
               largeTitle: Text("Music", style: TextStyle(fontSize: 40)),
             ),
             SliverFillRemaining(
-              child: Row(children: [
-                // Container(
-                //   width: MediaQuery.of(context).size.width * 0.25,
-                //   child: SingleChildScrollView(
-                //     child: Column(
-                //       children: [
-                //         CupertinoListSection.insetGrouped(
-                //           header: const Text("Local Storage"),
-                //           //header: CupertinoSearchTextField(placeholder: "Search"),
-                //           children: [
-                //             ...widget.fromStorage.map((item) {
-                //               return CupertinoListTile.notched(
-                //                   title: Text(item.title),
-                //                   onTap: () {
-                //                     open_media(item);
-                //                   });
-                //             })
-                //           ],
-                //         ),
-                //         CupertinoListSection.insetGrouped(
-                //           header: const Text("Media Server"),
-                //           children: [
-                //             ...widget.fromServer.map((item) {
-                //               return CupertinoListTile.notched(
-                //                   title: Text(item.title), onTap: () {});
-                //             })
-                //           ],
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                AudioPlayerScreen()
-              ]),
+              child: Row(children: [AudioPlayerScreen()]),
             )
           ]),
     );
