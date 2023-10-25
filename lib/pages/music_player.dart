@@ -30,6 +30,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
     super.initState();
     player.open(playlist, play: false);
     player.setPlaylistMode(PlaylistMode.loop);
+    player.setVolume(50);
   }
 
   @override

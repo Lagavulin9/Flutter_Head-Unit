@@ -68,7 +68,7 @@ class MetadataWidget extends StatelessWidget {
                       style: const TextStyle(fontSize: 20),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 20)
+                    const SizedBox(height: 20)
                   ],
                 );
               });
@@ -191,6 +191,29 @@ class AudioPlayerScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(CupertinoIcons.volume_mute),
+              SizedBox(
+                width: 410,
+                child: StreamBuilder(
+                    stream: player.stream.volume,
+                    builder: (context, snapshot) {
+                      final volume = snapshot.data ?? 50;
+                      return CupertinoSlider(
+                          min: 0,
+                          max: 100,
+                          value: volume,
+                          onChanged: (volume) {
+                            player.setVolume(volume);
+                          });
+                    }),
+              ),
+              const Icon(CupertinoIcons.volume_up)
+            ],
           )
         ],
       ),
