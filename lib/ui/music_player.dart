@@ -8,9 +8,22 @@ import 'package:metadata_god/metadata_god.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MetadataWidget extends StatelessWidget {
-  const MetadataWidget({super.key, required this.player});
+  MetadataWidget({super.key, required this.player});
 
   final Player player;
+  final Widget default_image = DecoratedBox(
+    decoration: BoxDecoration(boxShadow: const [
+      BoxShadow(color: Colors.black12, offset: Offset(2, 4), blurRadius: 4)
+    ], borderRadius: BorderRadius.circular(10)),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Image(
+        image: FileImage(File('assets/unknown-album.png')),
+        width: 200,
+        height: 200,
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +33,7 @@ class MetadataWidget extends StatelessWidget {
           if (snapshot.data == null) {
             return Column(
               children: [
-                Image(
-                  image: FileImage(File('assets/unknown-album.png')),
-                  width: 200,
-                  height: 200,
-                ),
+                default_image,
                 const SizedBox(height: 15),
                 const Text(
                   "Not Playing",
@@ -42,15 +51,22 @@ class MetadataWidget extends StatelessWidget {
               builder: (context, snapshot) {
                 final metadata = snapshot.data;
                 final Widget AlbumCover = metadata?.picture == null
-                    ? Image(
-                        image: FileImage(File('assets/unknown-album.png')),
-                        width: 200,
-                        height: 200,
-                      )
-                    : Image(
-                        image: MemoryImage(metadata!.picture!.data),
-                        width: 200,
-                        height: 200,
+                    ? default_image
+                    : DecoratedBox(
+                        decoration: BoxDecoration(boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(2, 4),
+                              blurRadius: 4)
+                        ], borderRadius: BorderRadius.circular(10)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image(
+                            image: MemoryImage(metadata!.picture!.data),
+                            width: 200,
+                            height: 200,
+                          ),
+                        ),
                       );
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
