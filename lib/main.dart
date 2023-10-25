@@ -72,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: CupertinoButton(
         child: const Icon(
           Icons.dashboard,
+          color: Color.fromRGBO(0, 0, 0, 0.4),
           size: 60,
         ),
         onPressed: () {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
@@ -16,7 +18,21 @@ class MetadataWidget extends StatelessWidget {
         stream: player.stream.playlist,
         builder: (context, snapshot) {
           if (snapshot.data == null) {
-            return const Text("No media");
+            return Column(
+              children: [
+                Image(
+                  image: FileImage(File('assets/unknown-album.png')),
+                  width: 250,
+                  height: 250,
+                ),
+                const SizedBox(height: 15),
+                const Text(
+                  "Not Playing",
+                  style: TextStyle(fontSize: 25),
+                ),
+                const SizedBox(height: 40)
+              ],
+            );
           }
           final List<Media> _playlists = snapshot.data!.medias;
           final int _current_index = snapshot.data!.index;
@@ -25,16 +41,21 @@ class MetadataWidget extends StatelessWidget {
               future: MetadataGod.readMetadata(file: _selected_file),
               builder: (context, snapshot) {
                 final metadata = snapshot.data;
+                final Widget AlbumCover = metadata?.picture == null
+                    ? Image(
+                        image: FileImage(File('assets/unknown-album.png')),
+                        width: 250,
+                        height: 250,
+                      )
+                    : Image(
+                        image: MemoryImage(metadata!.picture!.data),
+                        width: 250,
+                        height: 250,
+                      );
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    metadata?.picture == null
-                        ? Text("No image")
-                        : Image(
-                            image: MemoryImage(metadata!.picture!.data),
-                            width: 250,
-                            height: 250,
-                          ),
+                    AlbumCover,
                     const SizedBox(height: 15),
                     Text(
                       "${metadata?.title ?? 'Unknown Title'}",
@@ -47,6 +68,7 @@ class MetadataWidget extends StatelessWidget {
                       style: const TextStyle(fontSize: 20),
                       overflow: TextOverflow.ellipsis,
                     ),
+                    SizedBox(height: 20)
                   ],
                 );
               });
@@ -110,7 +132,8 @@ class Controls extends StatelessWidget {
               onPressed: player.play,
               child: const Icon(
                 CupertinoIcons.play_arrow_solid,
-                size: 60,
+                color: Colors.black,
+                size: 50,
               ),
             );
           } else {
@@ -118,7 +141,8 @@ class Controls extends StatelessWidget {
               onPressed: player.pause,
               child: const Icon(
                 CupertinoIcons.pause_fill,
-                size: 60,
+                color: Colors.black,
+                size: 50,
               ),
             );
           }
@@ -126,76 +150,50 @@ class Controls extends StatelessWidget {
   }
 }
 
-class AudioPlayerScreen extends StatefulWidget {
-  const AudioPlayerScreen({super.key});
+class AudioPlayerScreen extends StatelessWidget {
+  const AudioPlayerScreen({super.key, required this.player});
 
-  @override
-  State<AudioPlayerScreen> createState() => _AudioPlayerScreenState();
-}
-
-class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
-  late final Player player = Player();
-
-  final playlist = Playlist([
-    Media(
-        '/home/jinholee/Downloads/TheFatRat - The Calling (feat. Laura Brehm).mp3'),
-    Media('/home/jinholee/media_repo/audios/happy-day.mp3')
-  ]);
-
-  @override
-  void initState() {
-    super.initState();
-    player.setPlaylistMode(PlaylistMode.loop);
-  }
-
-  @override
-  void dispose() {
-    player.stop();
-    player.dispose();
-    super.dispose();
-  }
+  final Player player;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: player.open(playlist, play: false),
-        builder: (context, snapshot) {
-          return Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MetadataWidget(player: player),
-                  SizedBox(
-                      width: 600,
-                      height: 40,
-                      child: StreamProgressBar(
-                        player: player,
-                      )),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CupertinoButton(
-                        onPressed: player.previous,
-                        child: const Icon(
-                          CupertinoIcons.backward_fill,
-                          size: 50,
-                        ),
-                      ),
-                      Controls(player: player),
-                      CupertinoButton(
-                        onPressed: player.next,
-                        child: const Icon(
-                          CupertinoIcons.forward_fill,
-                          size: 50,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MetadataWidget(player: player),
+          SizedBox(
+            width: 450,
+            height: 50,
+            child: StreamProgressBar(player: player),
+          ),
+          SizedBox(
+            width: 600,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CupertinoButton(
+                  onPressed: player.previous,
+                  child: const Icon(
+                    CupertinoIcons.backward_fill,
+                    color: Colors.black,
+                    size: 40,
+                  ),
+                ),
+                Controls(player: player),
+                CupertinoButton(
+                  onPressed: player.next,
+                  child: const Icon(
+                    CupertinoIcons.forward_fill,
+                    color: Colors.black,
+                    size: 40,
+                  ),
+                ),
+              ],
             ),
-          );
-        });
+          )
+        ],
+      ),
+    );
   }
 }
