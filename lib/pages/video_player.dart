@@ -1,59 +1,53 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
-
-class VideoInfo {
-  const VideoInfo(this.title, this.url);
-  final String title;
-  final String url;
-}
+import 'package:path/path.dart';
 
 class VideoPlayer extends StatefulWidget {
   const VideoPlayer({super.key});
-
-  final List<VideoInfo> fromStorage = const [
-    VideoInfo('nyancat',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('chrome_cast',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4')
-  ];
-
-  final List<VideoInfo> fromServer = const [
-    VideoInfo('nyancat',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('chrome_cast',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('what',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('is',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('this',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('list',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('going',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('to',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4'),
-    VideoInfo('do',
-        'https://github.com/Lagavulin9/media_repo/raw/main/videos/chrome_cast.mp4')
-  ];
 
   @override
   State<VideoPlayer> createState() => _VideoPlayerState();
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late final Player player = Player();
   late VideoController controller = VideoController(player);
-  String video_title = "";
+
+  List<String> files = [];
+
+  Future<List<String>> loadVideos() async {
+    var result = await Process.run(
+        'find', ['/home/jinholee/Videos', '-type', 'f', '-name', '*.mkv']);
+    if (result.exitCode != 0) {
+      debugPrint("Error occured");
+      return [];
+    }
+    var stdout = result.stdout as String;
+    files = stdout.split('\n');
+    if (files.isEmpty || files.last.isEmpty) {
+      files.removeLast();
+    }
+    files.sort();
+    return files;
+  }
+
+  Future<void> setPlaylist() async {
+    await loadVideos();
+    final Playlist playlist =
+        Playlist(files.map((item) => Media(item)).toList());
+    player.open(playlist, play: false);
+  }
 
   @override
   void initState() {
     super.initState();
-    video_title = "";
-    // Play a [Media] or [Playlist].);
+    player.setPlaylistMode(PlaylistMode.loop);
+    //setPlaylist();
   }
 
   @override
@@ -62,81 +56,85 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.dispose();
   }
 
-  void openVideo(VideoInfo item) {
-    player.open(Media(item.url));
-    controller = VideoController(player);
-    video_title = item.title;
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          slivers: [
-            const CupertinoSliverNavigationBar(
-              automaticallyImplyLeading: false,
-              largeTitle: Text("Video", style: TextStyle(fontSize: 40)),
-            ),
-            SliverFillRemaining(
-              child: Row(children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        CupertinoListSection.insetGrouped(
-                          header: const Text("Local Storage"),
-                          //header: CupertinoSearchTextField(placeholder: "Search"),
-                          children: [
-                            ...widget.fromStorage.map((item) {
-                              return CupertinoListTile.notched(
-                                  title: Text(item.title),
-                                  onTap: () {
-                                    openVideo(item);
-                                  });
-                            })
-                          ],
+    return CustomScrollView(slivers: [
+      const CupertinoSliverNavigationBar(
+        automaticallyImplyLeading: false,
+        largeTitle: Text("Video"),
+      ),
+      SliverFillRemaining(
+          child: Scaffold(
+        key: _scaffoldKey,
+        drawer: Drawer(
+          child: SizedBox(
+              width: 250,
+              child: FutureBuilder(
+                future: setPlaylist(),
+                builder: (context, snapshot) {
+                  if (player.state.playlist.medias.isEmpty) {
+                    return const CupertinoListSection(
+                        header: Text("Error Occured"));
+                  } else {
+                    return CupertinoListSection.insetGrouped(
+                      header: const Text("From device",
+                          style: TextStyle(fontSize: 20)),
+                      children: List.generate(files.length, (index) {
+                        final fileName =
+                            basename(player.state.playlist.medias[index].uri);
+                        return CupertinoListTile.notched(
+                          title: Text(fileName),
+                          onTap: () {
+                            player.jump(index);
+                          },
+                        );
+                      }),
+                    );
+                  }
+                },
+              )),
+        ),
+        body: Expanded(
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Video(width: 640, height: 360, controller: controller),
+                StreamBuilder(
+                    stream: player.stream.playlist,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Text("Not playing",
+                            style: TextStyle(fontSize: 30));
+                      }
+                      final index = snapshot.data!.index;
+                      final fileName =
+                          basename(player.state.playlist.medias[index].uri);
+                      return SizedBox(
+                        width: 640,
+                        child: Text(
+                          fileName,
+                          style: const TextStyle(fontSize: 30),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        CupertinoListSection.insetGrouped(
-                          header: const Text("Media Server"),
-                          children: [
-                            ...widget.fromServer.map((item) {
-                              return CupertinoListTile.notched(
-                                  title: Text(item.title),
-                                  onTap: () {
-                                    openVideo(item);
-                                  });
-                            })
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 30, horizontal: 40),
-                      child: Video(
-                          height: MediaQuery.sizeOf(context).height * (9 / 16),
-                          controller: controller),
-                    ),
-                    Expanded(
-                        child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
-                            width: MediaQuery.sizeOf(context).width,
-                            child: Text(
-                              video_title,
-                              style: TextStyle(fontSize: 35),
-                            )))
-                  ]),
-                )
-              ]),
-            )
-          ]),
-    );
+                      );
+                    })
+              ],
+            ),
+          ),
+        ),
+        floatingActionButton: CupertinoButton(
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
+          child: const Icon(
+            CupertinoIcons.list_bullet_below_rectangle,
+            size: 50,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      ))
+    ]);
   }
 }
