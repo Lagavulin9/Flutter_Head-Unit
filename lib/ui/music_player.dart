@@ -22,8 +22,8 @@ class MetadataWidget extends StatelessWidget {
               children: [
                 Image(
                   image: FileImage(File('assets/unknown-album.png')),
-                  width: 250,
-                  height: 250,
+                  width: 200,
+                  height: 200,
                 ),
                 const SizedBox(height: 15),
                 const Text(
@@ -44,13 +44,13 @@ class MetadataWidget extends StatelessWidget {
                 final Widget AlbumCover = metadata?.picture == null
                     ? Image(
                         image: FileImage(File('assets/unknown-album.png')),
-                        width: 250,
-                        height: 250,
+                        width: 200,
+                        height: 200,
                       )
                     : Image(
                         image: MemoryImage(metadata!.picture!.data),
-                        width: 250,
-                        height: 250,
+                        width: 200,
+                        height: 200,
                       );
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
