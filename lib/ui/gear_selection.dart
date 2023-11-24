@@ -1,35 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/provider/car_control_provider.dart';
+import 'package:provider/provider.dart';
 
 const TextStyle selectedStyle =
-    TextStyle(fontSize: 65, fontWeight: FontWeight.w900, color: Colors.black);
+    TextStyle(fontSize: 55, fontWeight: FontWeight.w900, color: Colors.black);
 const TextStyle notSelectedStyle = TextStyle(
     fontSize: 55,
     fontWeight: FontWeight.w900,
     color: Color.fromRGBO(0, 0, 0, 0.2));
 
-class GearSelection extends StatefulWidget {
-  const GearSelection({super.key});
+class GearSelection extends StatelessWidget {
+  const GearSelection({super.key, required this.selected});
 
-  @override
-  State<GearSelection> createState() => _GearSelection();
-}
-
-class _GearSelection extends State<GearSelection> {
-  late String selected;
-
-  @override
-  void initState() {
-    super.initState();
-    selected = 'P';
-  }
-
-  void onPressed(var selected_) {
-    // TODO : Later add vSomeIP communication here
-    setState(() {
-      selected = selected_;
-    });
-  }
+  final String selected;
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +27,25 @@ class _GearSelection extends State<GearSelection> {
               child: Text("P",
                   style: selected == "P" ? selectedStyle : notSelectedStyle),
               onPressed: () {
-                onPressed("P");
-              }),
-          CupertinoButton(
-              child: Text("D",
-                  style: selected == "D" ? selectedStyle : notSelectedStyle),
-              onPressed: () {
-                onPressed("D");
-              }),
-          CupertinoButton(
-              child: Text("N",
-                  style: selected == "N" ? selectedStyle : notSelectedStyle),
-              onPressed: () {
-                onPressed("N");
+                Provider.of<ControlModel>(context, listen: false).setGear("P");
               }),
           CupertinoButton(
               child: Text("R",
                   style: selected == "R" ? selectedStyle : notSelectedStyle),
               onPressed: () {
-                onPressed("R");
+                Provider.of<ControlModel>(context, listen: false).setGear("R");
+              }),
+          CupertinoButton(
+              child: Text("N",
+                  style: selected == "N" ? selectedStyle : notSelectedStyle),
+              onPressed: () {
+                Provider.of<ControlModel>(context, listen: false).setGear("N");
+              }),
+          CupertinoButton(
+              child: Text("D",
+                  style: selected == "D" ? selectedStyle : notSelectedStyle),
+              onPressed: () {
+                Provider.of<ControlModel>(context, listen: false).setGear("D");
               }),
         ]));
   }

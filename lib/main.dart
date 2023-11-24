@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/app_controller.dart';
+import 'package:flutter_head_unit/provider/car_control_provider.dart';
 import 'package:flutter_head_unit/ui/app_drawer.dart';
 import 'package:flutter_head_unit/ui/clock.dart';
 import 'package:flutter_head_unit/ui/gear_selection.dart';
@@ -17,7 +18,7 @@ void main() async {
   WindowOptions windowOptions = const WindowOptions(
     size: Size(displayWidth, displayHeight),
     skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden,
+    //titleBarStyle: TitleBarStyle.hidden,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
@@ -34,7 +35,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<AppController>(
-              create: (context) => AppController())
+              create: (context) => AppController()),
+          ChangeNotifierProvider<ControlModel>(
+              create: (context) => ControlModel())
         ],
         child: MaterialApp(
           title: 'Head Unit',
@@ -77,7 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       endDrawer: const AppDrawer(),
       body: Row(children: [
-        const GearSelection(),
+        Consumer<ControlModel>(
+          builder: (context, value, child) =>
+              GearSelection(selected: value.gear),
+        ),
         Expanded(
             child: Stack(
           children: [
