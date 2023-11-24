@@ -45,6 +45,7 @@ dependencies:
   audio_video_progress_bar: ^2.0.1
   rxdart: ^0.27.7
   metadata_god: ^0.5.2+1
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:
