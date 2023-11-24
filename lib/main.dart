@@ -5,6 +5,8 @@ import 'package:flutter_head_unit/provider/car_control_provider.dart';
 import 'package:flutter_head_unit/ui/app_drawer.dart';
 import 'package:flutter_head_unit/ui/clock.dart';
 import 'package:flutter_head_unit/ui/gear_selection.dart';
+import 'package:media_kit/media_kit.dart';
+import 'package:metadata_god/metadata_god.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -12,12 +14,14 @@ const double displayWidth = 1024;
 const double displayHeight = 600;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MediaKit.ensureInitialized();
+  MetadataGod.initialize();
   // Must add this line.
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
     size: Size(displayWidth, displayHeight),
-    skipTaskbar: false,
+    //skipTaskbar: false,
     //titleBarStyle: TitleBarStyle.hidden,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -71,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: CupertinoButton(
         child: const Icon(
           Icons.dashboard,
+          color: Color.fromRGBO(0, 0, 0, 0.4),
           size: 60,
         ),
         onPressed: () {
