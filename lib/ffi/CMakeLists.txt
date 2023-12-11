@@ -7,7 +7,9 @@ find_package(CommonAPI 3.2.0 REQUIRED)
 
 include_directories(
   ./include
-  /home/jinholee/dummie/src-gen/core
+  ~/meta-car_control/car_control/src-gen/core
+  ~/meta-car_info/car_info/src-gen/core
+  ~/DES_Head-Unit/can_receiver/src-gen/core
   ${COMMONAPI_INCLUDE_DIRS}
 )
 

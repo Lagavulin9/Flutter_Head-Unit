@@ -5,22 +5,20 @@
 #include <mutex>
 #include <CommonAPI/CommonAPI.hpp>
 #include <CommonAPI/AttributeCacheExtension.hpp>
-#include <v1/commonapi/speedsensor/SpeedSensorProxy.hpp>
-#include <v1/commonapi/carcontrol/CarControlProxy.hpp>
-#include <v1/commonapi/carinfo/CarInfoProxy.hpp>
+#include <v0/commonapi/SpeedSensorProxy.hpp>
+#include <v0/commonapi/CarControlProxy.hpp>
+#include <v0/commonapi/CarInfoProxy.hpp>
 
-using namespace v1::commonapi::speedsensor;
-using namespace v1::commonapi::carcontrol;
-using namespace v1::commonapi::carinfo;
+using namespace v0::commonapi;
 
 std::shared_ptr<CommonAPI::Runtime> runtime;
 std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<SpeedSensorProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ssProxy;
 std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ccProxy;
 std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<CarInfoProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ciProxy;
 
-static int _speed;
+static unsigned int _speed;
 static std::string _gear;
-static v1::commonapi::carinfo::CommonTypes::InfoStruct _carinfo;
+static v0::commonapi::CommonTypes::batteryStruct _carinfo;
 static std::string _indicator;
 static std::mutex _mutex;
 
@@ -42,7 +40,7 @@ void init()
 	runtime = CommonAPI::Runtime::get();
 
 	std::string domain = "local";
-	std::string instance = "commonapi.speedsensor.SpeedSensor";
+	std::string instance = "SpeedSensor";
 	std::string connection = "client-sample";
 
 	// ssProxy = runtime->buildProxyWithDefaultAttributeExtension<SpeedSensorProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
@@ -53,7 +51,7 @@ void init()
 	// std::cout << "SpeedSensor service is available" << std::endl;
 
 
-	instance = "commonapi.carcontrol.CarControl";
+	instance = "commonapi.CarControl";
 	ccProxy = runtime->buildProxyWithDefaultAttributeExtension<CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
 	std::cout << "Waiting for service to become available." << std::endl;
 	while (!ccProxy->isAvailable()) {
@@ -147,7 +145,7 @@ void subscribe_control()
 // 	// 		<< ", pwr: " << _carinfo.getPower()
 // 	// 		<< ", bat: " << _carinfo.getBattery()
 // 	// 		<< std::endl;
-// 	ciProxy->getCar_infoAttribute().getChangedEvent().subscribe([&](const v1::commonapi::carinfo::CommonTypes::InfoStruct& val){
+// 	ciProxy->getCar_infoAttribute().getChangedEvent().subscribe([&](const v0::commonapi::carinfo::CommonTypes::InfoStruct& val){
 // 			std::cout << "Received value->"
 // 			<< "vol: " << _carinfo.getVoltage()
 // 			<< ", cur: " << _carinfo.getCurrent()
@@ -202,7 +200,7 @@ void setGear(const char* input)
 	info.sender_ = 1234;
 	bool res;
 	std::string gear(input);
-	ccProxy->ChangeGear(gear, callStatus, res, &info);
+	ccProxy->gearSelectionHeadUnit(gear, callStatus, res, &info);
 	if (res == true)
 		std::cout << "Gear changed successfully" << std::endl;
 	else
