@@ -1,0 +1,12 @@
+{
+	"configurations": [
+		{
+			"name": "Flutter",
+			"request": "launch",
+			"type": "dart",
+			"env": {
+			  "LD_LIBRARY_PATH":"/usr/local/lib",
+			}
+		  }
+	]
+}

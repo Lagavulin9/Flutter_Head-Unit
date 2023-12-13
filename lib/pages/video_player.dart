@@ -21,8 +21,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
   List<String> files = [];
 
   Future<List<String>> loadVideos() async {
-    var result = await Process.run(
-        'find', ['/home/jinholee/Videos', '-type', 'f', '-name', '*.mkv']);
+    var result =
+        await Process.run('find', ['/media', '-type', 'f', '-name', '*.mkv']);
     if (result.exitCode != 0) {
       debugPrint("Error occured");
       return [];
