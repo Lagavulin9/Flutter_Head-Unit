@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:metadata_god/metadata_god.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MetadataWidget extends StatelessWidget {
@@ -139,6 +141,7 @@ class Controls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<ThemeModel>(context);
     return StreamBuilder(
         stream: player.stream.playing,
         builder: (context, snapshot) {
@@ -146,20 +149,14 @@ class Controls extends StatelessWidget {
           if (!(playing ?? false)) {
             return CupertinoButton(
               onPressed: player.play,
-              child: const Icon(
-                CupertinoIcons.play_arrow_solid,
-                color: Colors.black,
-                size: 50,
-              ),
+              child: Icon(CupertinoIcons.play_arrow_solid,
+                  size: 50, color: themeModel.iconColor),
             );
           } else {
             return CupertinoButton(
               onPressed: player.pause,
-              child: const Icon(
-                CupertinoIcons.pause_fill,
-                color: Colors.black,
-                size: 50,
-              ),
+              child: Icon(CupertinoIcons.pause_fill,
+                  size: 50, color: themeModel.iconColor),
             );
           }
         });
@@ -173,6 +170,7 @@ class AudioPlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<ThemeModel>(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -190,20 +188,14 @@ class AudioPlayerScreen extends StatelessWidget {
               children: [
                 CupertinoButton(
                   onPressed: player.previous,
-                  child: const Icon(
-                    CupertinoIcons.backward_fill,
-                    color: Colors.black,
-                    size: 40,
-                  ),
+                  child: Icon(CupertinoIcons.backward_fill,
+                      size: 40, color: themeModel.iconColor),
                 ),
                 Controls(player: player),
                 CupertinoButton(
                   onPressed: player.next,
-                  child: const Icon(
-                    CupertinoIcons.forward_fill,
-                    color: Colors.black,
-                    size: 40,
-                  ),
+                  child: Icon(CupertinoIcons.forward_fill,
+                      size: 40, color: themeModel.iconColor),
                 ),
               ],
             ),
@@ -225,7 +217,8 @@ class AudioPlayerScreen extends StatelessWidget {
                           value: volume,
                           onChanged: (volume) {
                             player.setVolume(volume);
-                          });
+                          },
+                          activeColor: themeModel.sliderColor);
                     }),
               ),
               const Icon(CupertinoIcons.volume_up)

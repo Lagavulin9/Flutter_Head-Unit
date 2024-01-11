@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:flutter_head_unit/ui/music_player.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:metadata_god/metadata_god.dart';
+import 'package:provider/provider.dart';
 
 class MusicPlayer extends StatefulWidget {
   const MusicPlayer({super.key});
@@ -61,72 +63,82 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      const CupertinoSliverNavigationBar(
-        automaticallyImplyLeading: false,
-        largeTitle: Text("Music"),
-      ),
-      SliverFillRemaining(
-        child: Scaffold(
-          key: _scaffoldKey,
-          drawer: Drawer(
-            child: SizedBox(
-              width: 250,
-              child: files.isEmpty
-                  ? const CupertinoListSection(
-                      header: Text(
-                      "No media",
-                      style: TextStyle(fontSize: 20),
-                    ))
-                  : SingleChildScrollView(
-                      child: CupertinoListSection.insetGrouped(
-                        header: const Text("From device"),
-                        children: List.generate(files.length, (index) {
-                          final item = files[index];
-                          return FutureBuilder(
-                              future: MetadataGod.readMetadata(file: item),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const CupertinoListTile.notched(
-                                      title: Text("Reading..."));
-                                } else if (snapshot.hasError ||
-                                    !snapshot.hasData) {
-                                  return const CupertinoListTile.notched(
-                                      title: Text("Error Occurred"));
-                                } else {
-                                  final metadata = snapshot.data;
-                                  return CupertinoListTile.notched(
-                                    leading: metadata?.picture?.data == null
-                                        ? Image(
-                                            image: FileImage(File(
-                                                'assets/unknown-album.png')))
-                                        : Image(
-                                            image: MemoryImage(
-                                                metadata!.picture!.data)),
-                                    title: Text(
-                                        metadata?.title ?? "Unknown Title"),
-                                    onTap: () {
-                                      player.jump(index);
-                                    },
-                                  );
-                                }
-                              });
-                        }).toList(),
-                      ),
-                    ),
+    final themeModel = Provider.of<ThemeModel>(context);
+    return CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        slivers: [
+          CupertinoSliverNavigationBar(
+            automaticallyImplyLeading: false,
+            largeTitle: Text(
+              "Music",
+              style: TextStyle(fontSize: 40, color: themeModel.textColor),
             ),
           ),
-          floatingActionButton: CupertinoButton(
-              onPressed: () {
-                _scaffoldKey.currentState?.openDrawer();
-              },
-              child: const Icon(CupertinoIcons.music_note_list,
-                  size: 50, color: Colors.black)),
-          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-          body: AudioPlayerScreen(player: player),
-        ),
-      )
-    ]);
+          SliverFillRemaining(
+            child: Scaffold(
+              key: _scaffoldKey,
+              drawer: Drawer(
+                child: SizedBox(
+                  width: 250,
+                  child: files.isEmpty
+                      ? const CupertinoListSection(
+                          header: Text(
+                          "No media",
+                          style: TextStyle(fontSize: 20),
+                        ))
+                      : SingleChildScrollView(
+                          child: CupertinoListSection.insetGrouped(
+                            header: const Text("From device"),
+                            children: List.generate(files.length, (index) {
+                              final item = files[index];
+                              return FutureBuilder(
+                                  future: MetadataGod.readMetadata(file: item),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const CupertinoListTile.notched(
+                                          title: Text("Reading..."));
+                                    } else if (snapshot.hasError ||
+                                        !snapshot.hasData) {
+                                      return const CupertinoListTile.notched(
+                                          title: Text("Error Occurred"));
+                                    } else {
+                                      final metadata = snapshot.data;
+                                      return CupertinoListTile.notched(
+                                        leading: metadata?.picture?.data == null
+                                            ? Image(
+                                                image: FileImage(File(
+                                                    'assets/unknown-album.png')))
+                                            : Image(
+                                                image: MemoryImage(
+                                                    metadata!.picture!.data)),
+                                        title: Text(
+                                            metadata?.title ?? "Unknown Title"),
+                                        onTap: () {
+                                          player.jump(index);
+                                        },
+                                      );
+                                    }
+                                  });
+                            }).toList(),
+                          ),
+                        ),
+                ),
+              ),
+              floatingActionButton: CupertinoButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  child: Icon(
+                    CupertinoIcons.music_note_list,
+                    size: 50,
+                    color: themeModel.iconColor,
+                  )),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.startFloat,
+              body: AudioPlayerScreen(player: player),
+            ),
+          )
+        ]);
   }
 }
