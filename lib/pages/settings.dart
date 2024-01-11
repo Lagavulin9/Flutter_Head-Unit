@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -42,7 +44,8 @@ class _SettingsState extends State<Settings> {
                   CupertinoListTile.notched(
                     title: const Text("Theme"),
                     leading: const Icon(Icons.dark_mode),
-                    onTap: () => debugPrint("Theme"),
+                    onTap: () => Provider.of<ThemeModel>(context, listen: false)
+                        .toggleTheme(),
                   ),
                   CupertinoListTile.notched(
                     title: const Text("About"),

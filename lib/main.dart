@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/app_controller.dart';
 import 'package:flutter_head_unit/provider/car_control_provider.dart';
+import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:flutter_head_unit/ui/app_drawer.dart';
 import 'package:flutter_head_unit/ui/clock.dart';
 import 'package:flutter_head_unit/ui/gear_selection.dart';
@@ -41,19 +42,35 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<AppController>(
               create: (context) => AppController()),
           ChangeNotifierProvider<ControlModel>(
-              create: (context) => ControlModel())
+              create: (context) => ControlModel()),
+          ChangeNotifierProvider(create: (context) => ThemeModel())
         ],
-        child: MaterialApp(
-          title: 'Head Unit',
-          theme: ThemeData(
-            fontFamily: 'Kanit',
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color.fromRGBO(0xe1, 0xe1, 0xe1, 1)),
-            useMaterial3: true,
-          ),
-          home: const MyHomePage(title: 'Head Unit'),
-          debugShowCheckedModeBanner: false,
-        ));
+        child: Consumer<ThemeModel>(
+            builder: (context, model, child) => MaterialApp(
+                  title: 'Head Unit',
+                  theme: ThemeData(
+                    colorScheme:
+                        const ColorScheme.light(background: Colors.white),
+                    textTheme: Typography.blackCupertino.copyWith(
+                        labelMedium: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade400)),
+                    useMaterial3: true,
+                  ),
+                  darkTheme: ThemeData(
+                    colorScheme: const ColorScheme.dark(),
+                    textTheme: Typography.whiteCupertino.copyWith(
+                        labelMedium: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade800)),
+                    useMaterial3: true,
+                  ),
+                  themeMode: model.mode,
+                  home: const MyHomePage(title: 'Head Unit'),
+                  debugShowCheckedModeBanner: false,
+                )));
   }
 }
 
