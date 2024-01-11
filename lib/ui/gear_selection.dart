@@ -27,7 +27,7 @@ class GearSelection extends StatelessWidget {
       return Container(
           decoration: model.mode == ThemeMode.light
               ? BoxDecoration(color: Colors.grey.shade300)
-              : BoxDecoration(color: Colors.grey.shade900),
+              : BoxDecoration(color: Colors.grey.shade800),
           width: MediaQuery.of(context).size.width * 0.16,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
