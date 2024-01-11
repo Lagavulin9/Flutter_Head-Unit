@@ -8,6 +8,9 @@ class ThemeModel extends ChangeNotifier {
   Color get textColor => _mode == ThemeMode.light ? Colors.black : Colors.white;
   Color get sliderColor =>
       _mode == ThemeMode.light ? Colors.black : Colors.white;
+  Color get backgroundColor => _mode == ThemeMode.light
+      ? const Color.fromRGBO(245, 245, 245, 1)
+      : const Color.fromRGBO(60, 60, 60, 1);
 
   void toggleTheme() {
     _mode = _mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
