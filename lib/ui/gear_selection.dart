@@ -11,60 +11,49 @@ class GearSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeModel>(builder: (context, model, child) {
-      const double fontSize = 55;
-      const fontWeight = FontWeight.w900;
+    final themeModel = Provider.of<ThemeModel>(context);
+    const double fontSize = 55;
+    const fontWeight = FontWeight.w900;
 
-      TextStyle selectedStyle = model.mode == ThemeMode.light
-          ? const TextStyle(
-              fontSize: fontSize, fontWeight: fontWeight, color: Colors.black)
-          : const TextStyle(
-              fontSize: fontSize, fontWeight: fontWeight, color: Colors.white);
-      const TextStyle notSelectedStyle = TextStyle(
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          color: Color.fromRGBO(0, 0, 0, 0.2));
-      return Container(
-          decoration: model.mode == ThemeMode.light
-              ? BoxDecoration(color: Colors.grey.shade300)
-              : BoxDecoration(color: Colors.grey.shade800),
-          width: MediaQuery.of(context).size.width * 0.16,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CupertinoButton(
-                    child: Text("P",
-                        style:
-                            selected == "P" ? selectedStyle : notSelectedStyle),
-                    onPressed: () {
-                      Provider.of<ControlModel>(context, listen: false)
-                          .setGear("P");
-                    }),
-                CupertinoButton(
-                    child: Text("R",
-                        style:
-                            selected == "R" ? selectedStyle : notSelectedStyle),
-                    onPressed: () {
-                      Provider.of<ControlModel>(context, listen: false)
-                          .setGear("R");
-                    }),
-                CupertinoButton(
-                    child: Text("N",
-                        style:
-                            selected == "N" ? selectedStyle : notSelectedStyle),
-                    onPressed: () {
-                      Provider.of<ControlModel>(context, listen: false)
-                          .setGear("N");
-                    }),
-                CupertinoButton(
-                    child: Text("D",
-                        style:
-                            selected == "D" ? selectedStyle : notSelectedStyle),
-                    onPressed: () {
-                      Provider.of<ControlModel>(context, listen: false)
-                          .setGear("D");
-                    }),
-              ]));
-    });
+    TextStyle selectedStyle = TextStyle(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: themeModel.textColor);
+    const TextStyle notSelectedStyle = TextStyle(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: Color.fromRGBO(0, 0, 0, 0.2));
+    return Container(
+        decoration: themeModel.mode == ThemeMode.light
+            ? BoxDecoration(color: Colors.grey.shade300)
+            : BoxDecoration(color: Colors.grey.shade800),
+        width: MediaQuery.of(context).size.width * 0.16,
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          CupertinoButton(
+              child: Text("P",
+                  style: selected == "P" ? selectedStyle : notSelectedStyle),
+              onPressed: () {
+                Provider.of<ControlModel>(context, listen: false).setGear("P");
+              }),
+          CupertinoButton(
+              child: Text("R",
+                  style: selected == "R" ? selectedStyle : notSelectedStyle),
+              onPressed: () {
+                Provider.of<ControlModel>(context, listen: false).setGear("R");
+              }),
+          CupertinoButton(
+              child: Text("N",
+                  style: selected == "N" ? selectedStyle : notSelectedStyle),
+              onPressed: () {
+                Provider.of<ControlModel>(context, listen: false).setGear("N");
+              }),
+          CupertinoButton(
+              child: Text("D",
+                  style: selected == "D" ? selectedStyle : notSelectedStyle),
+              onPressed: () {
+                Provider.of<ControlModel>(context, listen: false).setGear("D");
+              }),
+        ]));
   }
 }
