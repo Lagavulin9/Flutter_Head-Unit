@@ -56,6 +56,10 @@ class MyApp extends StatelessWidget {
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey.shade400)),
+                    scaffoldBackgroundColor: Colors.white,
+                    drawerTheme: const DrawerThemeData(
+                        backgroundColor: Colors.white,
+                        surfaceTintColor: Colors.white),
                     useMaterial3: true,
                   ),
                   darkTheme: ThemeData(
@@ -65,6 +69,7 @@ class MyApp extends StatelessWidget {
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey.shade800)),
+                    scaffoldBackgroundColor: Colors.black,
                     useMaterial3: true,
                   ),
                   themeMode: model.mode,
