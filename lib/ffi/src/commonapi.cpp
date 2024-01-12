@@ -5,22 +5,24 @@
 #include <mutex>
 #include <CommonAPI/CommonAPI.hpp>
 #include <CommonAPI/AttributeCacheExtension.hpp>
-#include <v0/commonapi/SpeedSensorProxy.hpp>
 #include <v0/commonapi/CarControlProxy.hpp>
-#include <v0/commonapi/CarInfoProxy.hpp>
+#include "HeadUnitStubImpl.hpp"
+// #include <v0/commonapi/SpeedSensorProxy.hpp>
+// #include <v0/commonapi/CarInfoProxy.hpp>
 
 using namespace v0::commonapi;
 
 std::shared_ptr<CommonAPI::Runtime> runtime;
-std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<SpeedSensorProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ssProxy;
+std::shared_ptr<HeadUnitStubImpl> headUnitService = std::make_shared<HeadUnitStubImpl>();
 std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ccProxy;
-std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<CarInfoProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ciProxy;
+// std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<SpeedSensorProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ssProxy;
+// std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<CarInfoProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ciProxy;
 
-static unsigned int _speed;
-static std::string _gear;
-static v0::commonapi::CommonTypes::batteryStruct _carinfo;
-static std::string _indicator;
 static std::mutex _mutex;
+static std::string _gear;
+static std::string _indicator;
+// static unsigned int _speed;
+// static v0::commonapi::CommonTypes::batteryStruct _carinfo;
 
 struct carinfo {
 	double vol;
@@ -36,12 +38,23 @@ void init()
 
 	CommonAPI::Runtime::setProperty("LogContext", "HeadUnit");
 	CommonAPI::Runtime::setProperty("LogApplication", "HeadUnit");
-	//CommonAPI::Runtime::setProperty("LibraryBase", "speedsensor");
 	runtime = CommonAPI::Runtime::get();
 
 	std::string domain = "local";
-	std::string instance = "SpeedSensor";
 	std::string connection = "client-sample";
+	std::string instance = "commonapi.HeadUnit";
+
+	while (!runtime->registerService(domain, instance, headUnitService, connection))
+	{
+		std::cout << "Register Service failed, trying again in 100 milliseconds..." << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+	std::cout << "Successfully Registered Service!" << std::endl;
+	
+	headUnitService->setLightModeAttribute(true);
+	headUnitService->setUnitAttribute("SI");
+
+	//CommonAPI::Runtime::setProperty("LibraryBase", "speedsensor");
 
 	// ssProxy = runtime->buildProxyWithDefaultAttributeExtension<SpeedSensorProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
 	// std::cout << "Waiting for service to become available." << std::endl;
@@ -50,7 +63,6 @@ void init()
 	// }
 	// std::cout << "SpeedSensor service is available" << std::endl;
 
-
 	instance = "commonapi.CarControl";
 	ccProxy = runtime->buildProxyWithDefaultAttributeExtension<CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
 	std::cout << "Waiting for service to become available." << std::endl;
@@ -58,7 +70,6 @@ void init()
 		std::this_thread::sleep_for(std::chrono::microseconds(10));
 	}
 	std::cout << "CarControl service is available" << std::endl;
-
 
 	// instance = "commonapi.carinfo.CarInfo";
 	// ciProxy = runtime->buildProxyWithDefaultAttributeExtension<CarInfoProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
@@ -171,6 +182,18 @@ const char* getGear()
 {
 	std::lock_guard<std::mutex> lock(_mutex);
 	return _gear.c_str();
+}
+
+EXPORT
+void setLightMode()
+{
+	headUnitService->setLightModeAttribute(false);
+}
+
+EXPORT
+void setUnit()
+{
+	headUnitService->setUnitAttribute("Imperial");
 }
 
 // EXPORT
