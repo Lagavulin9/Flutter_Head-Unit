@@ -1,0 +1,10 @@
+package commonapi
+
+interface HeadUnit {
+    version { major 0 minor 1 }
+
+    attribute Boolean lightMode readonly
+    attribute String unit readonly
+    attribute UInt8[] mediaImage readonly
+    attribute String mediaName readonly
+}

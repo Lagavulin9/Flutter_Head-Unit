@@ -27,7 +27,7 @@ class CommonAPI {
   // late final Function getInfo;
 
   bool _initializeFFI() {
-    libffi = DynamicLibrary.open("libffi.so");
+    libffi = DynamicLibrary.open("libHeadUnit-someip.so");
     _init = libffi
         .lookup<NativeFunction<Void Function()>>('init')
         .asFunction<void Function()>();

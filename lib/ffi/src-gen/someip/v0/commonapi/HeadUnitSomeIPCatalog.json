@@ -1,0 +1,8 @@
+{
+    "commonapi.HeadUnit" : {
+        "service_id": 8000,
+        "instances" : {
+            "commonapi.HeadUnit": 8001
+        }
+    }
+}

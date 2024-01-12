@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(ffi LANGUAGES CXX C)                         
+project(HeadUnit-ffi LANGUAGES CXX C)                         
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
@@ -16,8 +16,8 @@ include_directories(
   ${COMMONAPI_INCLUDE_DIRS}
 )
 
-add_library(ffi
+add_library(HeadUnit-someip
   SHARED
-  commonapi.cpp
+  src/commonapi.cpp
 )
-target_link_libraries(ffi CommonAPI)
+target_link_libraries(HeadUnit-someip CommonAPI)
