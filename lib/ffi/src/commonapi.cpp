@@ -185,15 +185,15 @@ const char* getGear()
 }
 
 EXPORT
-void setLightMode()
+void setLightMode(bool value)
 {
-	headUnitService->setLightModeAttribute(false);
+	headUnitService->setLightModeAttribute(value);
 }
 
 EXPORT
-void setUnit()
+void setUnit(const char* input)
 {
-	headUnitService->setUnitAttribute("Imperial");
+	headUnitService->setUnitAttribute(input);
 }
 
 // EXPORT

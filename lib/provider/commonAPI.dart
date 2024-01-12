@@ -25,6 +25,8 @@ class CommonAPI {
   late final Function _setGear;
   // late final Function _getIndicatorUtf8;
   // late final Function getInfo;
+  late final Function _setLightMode;
+  late final Function _setUnit;
 
   bool _initializeFFI() {
     libffi = DynamicLibrary.open("libHeadUnit-someip.so");
@@ -55,6 +57,12 @@ class CommonAPI {
     // getInfo = libffi
     //     .lookup<NativeFunction<InfoStruct Function()>>("getInfo")
     //     .asFunction<InfoStruct Function()>();
+    _setLightMode = libffi
+        .lookup<NativeFunction<Void Function(Bool)>>('setLightMode')
+        .asFunction<void Function(bool)>();
+    _setUnit = libffi
+        .lookup<NativeFunction<Void Function(Pointer<Utf8>)>>('setUnit')
+        .asFunction<void Function(Pointer<Utf8>)>();
     return true;
   }
 
@@ -84,4 +92,13 @@ class CommonAPI {
   //   Pointer<Utf8> raw = _getIndicatorUtf8();
   //   return raw.toDartString();
   // }
+
+  void setLightMode(bool value) {
+    _setLightMode(value);
+  }
+
+  void setUnit(String unit) {
+    Pointer<Utf8> unit_ptr = unit.toNativeUtf8();
+    _setUnit(unit_ptr);
+  }
 }
