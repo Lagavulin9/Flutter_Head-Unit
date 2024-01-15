@@ -35,7 +35,7 @@ std::shared_ptr<CommonAPI::SomeIP::StubAdapter> createHeadUnitSomeIPStubAdapter(
 void initializeHeadUnitSomeIPStubAdapter() {
     CommonAPI::SomeIP::AddressTranslator::get()->insert(
         "local:commonapi.HeadUnit:v0_1:commonapi.HeadUnit",
-         0x1f40, 0x1f41, 0, 1);
+         0x1770, 0x1771, 0, 1);
     CommonAPI::SomeIP::Factory::get()->registerStubAdapterCreateMethod(
         "commonapi.HeadUnit:v0_1",
         &createHeadUnitSomeIPStubAdapter);

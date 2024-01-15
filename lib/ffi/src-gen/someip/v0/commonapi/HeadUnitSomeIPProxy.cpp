@@ -33,7 +33,7 @@ std::shared_ptr<CommonAPI::SomeIP::Proxy> createHeadUnitSomeIPProxy(
 void initializeHeadUnitSomeIPProxy() {
     CommonAPI::SomeIP::AddressTranslator::get()->insert(
         "local:commonapi.HeadUnit:v0_1:commonapi.HeadUnit",
-        0x1f40, 0x1f41, 0, 1);
+        0x1770, 0x1771, 0, 1);
     CommonAPI::SomeIP::Factory::get()->registerProxyCreateMethod(
         "commonapi.HeadUnit:v0_1",
         &createHeadUnitSomeIPProxy);
@@ -47,10 +47,10 @@ HeadUnitSomeIPProxy::HeadUnitSomeIPProxy(
     const CommonAPI::SomeIP::Address &_address,
     const std::shared_ptr<CommonAPI::SomeIP::ProxyConnection> &_connection)
         : CommonAPI::SomeIP::Proxy(_address, _connection),
-          lightMode_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x1fa4), CommonAPI::SomeIP::event_id_t(0x13c68), CommonAPI::SomeIP::method_id_t(0x1fa5), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::EmptyDeployment* >(nullptr)),
-          unit_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x2008), CommonAPI::SomeIP::event_id_t(0x14050), CommonAPI::SomeIP::method_id_t(0x2009), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::StringDeployment* >(nullptr)),
-          mediaImage_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x206c), CommonAPI::SomeIP::event_id_t(0x14438), CommonAPI::SomeIP::method_id_t(0x206d), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >* >(nullptr)),
-          mediaName_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x206c), CommonAPI::SomeIP::event_id_t(0x14820), CommonAPI::SomeIP::method_id_t(0x20d1), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::StringDeployment* >(nullptr))
+          lightMode_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x17d4), CommonAPI::SomeIP::event_id_t(0xee48), CommonAPI::SomeIP::method_id_t(0x17d5), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::EmptyDeployment* >(nullptr)),
+          unit_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x1838), CommonAPI::SomeIP::event_id_t(0xf230), CommonAPI::SomeIP::method_id_t(0x1839), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::StringDeployment* >(nullptr)),
+          mediaImage_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x189c), CommonAPI::SomeIP::event_id_t(0xf618), CommonAPI::SomeIP::method_id_t(0x189d), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >* >(nullptr)),
+          mediaName_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x1900), CommonAPI::SomeIP::event_id_t(0xfa00), CommonAPI::SomeIP::method_id_t(0x1901), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::StringDeployment* >(nullptr))
 {
 }
 

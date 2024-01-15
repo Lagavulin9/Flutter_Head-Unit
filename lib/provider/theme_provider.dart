@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/provider/commonAPI.dart';
 
 class ThemeModel extends ChangeNotifier {
+  final CommonAPI bridge = CommonAPI();
   ThemeMode _mode = ThemeMode.light;
 
   ThemeMode get mode => _mode;
@@ -14,6 +16,7 @@ class ThemeModel extends ChangeNotifier {
 
   void toggleTheme() {
     _mode = _mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    bridge.setLightMode(_mode == ThemeMode.light);
     notifyListeners();
   }
 }

@@ -31,18 +31,11 @@ struct carinfo {
 	double bat;
 };
 
-EXPORT
-void init()
+void initStub()
 {
-	std::cout << "init called" << std::endl;
-
-	CommonAPI::Runtime::setProperty("LogContext", "HeadUnit");
-	CommonAPI::Runtime::setProperty("LogApplication", "HeadUnit");
-	runtime = CommonAPI::Runtime::get();
-
 	std::string domain = "local";
-	std::string connection = "client-sample";
 	std::string instance = "commonapi.HeadUnit";
+	std::string connection = "service-HeadUnit";
 
 	while (!runtime->registerService(domain, instance, headUnitService, connection))
 	{
@@ -50,11 +43,21 @@ void init()
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 	std::cout << "Successfully Registered Service!" << std::endl;
-	
 	headUnitService->setLightModeAttribute(true);
 	headUnitService->setUnitAttribute("SI");
+}
 
+EXPORT
+void init()
+{
+	std::cout << "init called" << std::endl;
+
+	runtime = CommonAPI::Runtime::get();
+	CommonAPI::Runtime::setProperty("LogContext", "HeadUnit");
+	CommonAPI::Runtime::setProperty("LogApplication", "HeadUnit");
 	//CommonAPI::Runtime::setProperty("LibraryBase", "speedsensor");
+
+	initStub();
 
 	// ssProxy = runtime->buildProxyWithDefaultAttributeExtension<SpeedSensorProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
 	// std::cout << "Waiting for service to become available." << std::endl;
@@ -63,7 +66,9 @@ void init()
 	// }
 	// std::cout << "SpeedSensor service is available" << std::endl;
 
-	instance = "commonapi.CarControl";
+	std::string domain = "local";
+	std::string instance = "commonapi.CarControl";
+	std::string connection = "client-CarControl";
 	ccProxy = runtime->buildProxyWithDefaultAttributeExtension<CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
 	std::cout << "Waiting for service to become available." << std::endl;
 	while (!ccProxy->isAvailable()) {
@@ -193,7 +198,8 @@ void setLightMode(bool value)
 EXPORT
 void setUnit(const char* input)
 {
-	headUnitService->setUnitAttribute(input);
+	std::string unit(input);
+	headUnitService->setUnitAttribute(unit);
 }
 
 // EXPORT

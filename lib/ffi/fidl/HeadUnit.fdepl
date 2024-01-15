@@ -3,33 +3,33 @@ import "HeadUnit.fidl"
 
 define org.genivi.commonapi.someip.deployment for interface commonapi.HeadUnit {
 
-    SomeIpServiceID = 8000
+    SomeIpServiceID = 6000
 
     attribute lightMode {
-        SomeIpNotifierEventGroups = { 8100 }
-        SomeIpNotifierID = 81000
-        SomeIpGetterID = 8101
+        SomeIpNotifierEventGroups = { 6100 }
+        SomeIpNotifierID = 61000
+        SomeIpGetterID = 6101
         SomeIpAttributeReliable = true
     }
 
     attribute unit {
-        SomeIpNotifierEventGroups = { 8200 }
-        SomeIpNotifierID = 82000
-        SomeIpGetterID = 8201
+        SomeIpNotifierEventGroups = { 6200 }
+        SomeIpNotifierID = 62000
+        SomeIpGetterID = 6201
         SomeIpAttributeReliable = true
     }
 
     attribute mediaImage {
-        SomeIpNotifierEventGroups = { 8300 }
-        SomeIpNotifierID = 83000
-        SomeIpGetterID = 8301
+        SomeIpNotifierEventGroups = { 6300 }
+        SomeIpNotifierID = 63000
+        SomeIpGetterID = 6301
         SomeIpAttributeReliable = true
     }
 
     attribute mediaName {
-        SomeIpNotifierEventGroups = { 8300 }
-        SomeIpNotifierID = 84000
-        SomeIpGetterID = 8401
+        SomeIpNotifierEventGroups = { 6400 }
+        SomeIpNotifierID = 64000
+        SomeIpGetterID = 6401
         SomeIpAttributeReliable = true
     }
 
@@ -38,9 +38,6 @@ define org.genivi.commonapi.someip.deployment for interface commonapi.HeadUnit {
 define org.genivi.commonapi.someip.deployment for provider as Service {
     instance commonapi.HeadUnit{
         InstanceId = "commonapi.HeadUnit"
-        SomeIpInstanceID = 8001
-        SomeIpUnicastAddress = "192.168.0.5"
-        SomeIpReliableUnicastPort = 40015
-        SomeIpUnreliableUnicastPort = 40015
+        SomeIpInstanceID = 6001
     }
 }

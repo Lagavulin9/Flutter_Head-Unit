@@ -118,38 +118,38 @@ public:
             false,
             _stub->hasElement(3))
     {
-        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x1fa5) }, &getLightModeAttributeStubDispatcher );
-        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x2009) }, &getUnitAttributeStubDispatcher );
-        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x206d) }, &getMediaImageAttributeStubDispatcher );
-        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x20d1) }, &getMediaNameAttributeStubDispatcher );
+        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x17d5) }, &getLightModeAttributeStubDispatcher );
+        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x1839) }, &getUnitAttributeStubDispatcher );
+        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x189d) }, &getMediaImageAttributeStubDispatcher );
+        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x1901) }, &getMediaNameAttributeStubDispatcher );
         std::shared_ptr<CommonAPI::SomeIP::ClientId> itsClient = std::make_shared<CommonAPI::SomeIP::ClientId>();
 
         // Provided events/fields
         if (_stub->hasElement(0)) {
             std::set<CommonAPI::SomeIP::eventgroup_id_t> itsEventGroups;
-            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x1fa4)));
-            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0x13c68), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
+            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x17d4)));
+            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0xee48), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
             fireLightModeAttributeChanged(std::dynamic_pointer_cast< ::v0::commonapi::HeadUnitStub>(_stub)->getLightModeAttribute(itsClient));
         }
 
         if (_stub->hasElement(1)) {
             std::set<CommonAPI::SomeIP::eventgroup_id_t> itsEventGroups;
-            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x2008)));
-            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0x14050), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
+            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x1838)));
+            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0xf230), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
             fireUnitAttributeChanged(std::dynamic_pointer_cast< ::v0::commonapi::HeadUnitStub>(_stub)->getUnitAttribute(itsClient));
         }
 
         if (_stub->hasElement(2)) {
             std::set<CommonAPI::SomeIP::eventgroup_id_t> itsEventGroups;
-            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x206c)));
-            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0x14438), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
+            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x189c)));
+            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0xf618), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
             fireMediaImageAttributeChanged(std::dynamic_pointer_cast< ::v0::commonapi::HeadUnitStub>(_stub)->getMediaImageAttribute(itsClient));
         }
 
         if (_stub->hasElement(3)) {
             std::set<CommonAPI::SomeIP::eventgroup_id_t> itsEventGroups;
-            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x206c)));
-            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0x14820), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
+            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x1900)));
+            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0xfa00), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
             fireMediaNameAttributeChanged(std::dynamic_pointer_cast< ::v0::commonapi::HeadUnitStub>(_stub)->getMediaNameAttribute(itsClient));
         }
 
@@ -169,7 +169,7 @@ void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireLightModeAttribute
             >
     >::sendEvent(
         *this,
-        CommonAPI::SomeIP::event_id_t(0x13c68),
+        CommonAPI::SomeIP::event_id_t(0xee48),
         false,
         _value
     );
@@ -187,7 +187,7 @@ void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireUnitAttributeChang
             >
     >::sendEvent(
         *this,
-        CommonAPI::SomeIP::event_id_t(0x14050),
+        CommonAPI::SomeIP::event_id_t(0xf230),
         false,
         deployedValue
     );
@@ -205,7 +205,7 @@ void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireMediaImageAttribut
             >
     >::sendEvent(
         *this,
-        CommonAPI::SomeIP::event_id_t(0x14438),
+        CommonAPI::SomeIP::event_id_t(0xf618),
         false,
         deployedValue
     );
@@ -223,7 +223,7 @@ void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireMediaNameAttribute
             >
     >::sendEvent(
         *this,
-        CommonAPI::SomeIP::event_id_t(0x14820),
+        CommonAPI::SomeIP::event_id_t(0xfa00),
         false,
         deployedValue
     );
