@@ -19,7 +19,12 @@
 #define HAS_DEFINED_COMMONAPI_INTERNAL_COMPILATION_HERE
 #endif
 
-#include <vector>
+#include <CommonAPI/Deployment.hpp>
+#include <CommonAPI/InputStream.hpp>
+#include <CommonAPI/OutputStream.hpp>
+#include <CommonAPI/Struct.hpp>
+#include <cstdint>
+#include <string>
 
 #include <CommonAPI/Attribute.hpp>
 #include <CommonAPI/Proxy.hpp>
@@ -37,14 +42,12 @@ class HeadUnitProxyBase
 public:
     typedef CommonAPI::ObservableReadonlyAttribute<bool> LightModeAttribute;
     typedef CommonAPI::ObservableReadonlyAttribute<std::string> UnitAttribute;
-    typedef CommonAPI::ObservableReadonlyAttribute<std::vector< uint8_t >> MediaImageAttribute;
-    typedef CommonAPI::ObservableReadonlyAttribute<std::string> MediaNameAttribute;
+    typedef CommonAPI::ObservableReadonlyAttribute<::v0::commonapi::HeadUnit::MetaData> MetadataAttribute;
 
 
     virtual LightModeAttribute& getLightModeAttribute() = 0;
     virtual UnitAttribute& getUnitAttribute() = 0;
-    virtual MediaImageAttribute& getMediaImageAttribute() = 0;
-    virtual MediaNameAttribute& getMediaNameAttribute() = 0;
+    virtual MetadataAttribute& getMetadataAttribute() = 0;
 
     virtual std::future<void> getCompletionFuture() = 0;
 };

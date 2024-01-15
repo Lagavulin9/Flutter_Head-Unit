@@ -1,6 +1,8 @@
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
+import 'package:flutter/material.dart';
 
 // final class InfoStruct extends Struct {
 //   @Double()
@@ -27,6 +29,7 @@ class CommonAPI {
   // late final Function getInfo;
   late final Function _setLightMode;
   late final Function _setUnit;
+  late final Function _setMetaData;
 
   bool _initializeFFI() {
     libffi = DynamicLibrary.open("libHeadUnit-someip.so");
@@ -63,6 +66,13 @@ class CommonAPI {
     _setUnit = libffi
         .lookup<NativeFunction<Void Function(Pointer<Utf8>)>>('setUnit')
         .asFunction<void Function(Pointer<Utf8>)>();
+    _setMetaData = libffi
+        .lookup<
+            NativeFunction<
+                Void Function(Pointer<Uint8>, Int, Pointer<Utf8>,
+                    Pointer<Utf8>)>>('setMetaData')
+        .asFunction<
+            void Function(Pointer<Uint8>, int, Pointer<Utf8>, Pointer<Utf8>)>();
     return true;
   }
 
@@ -100,5 +110,16 @@ class CommonAPI {
   void setUnit(String unit) {
     Pointer<Utf8> unit_ptr = unit.toNativeUtf8();
     _setUnit(unit_ptr);
+  }
+
+  void setMetaData(Uint8List image, String artist, String title) {
+    Pointer<Uint8> uint8_ptr = malloc.allocate<Uint8>(image.length);
+    for (int i = 0; i < image.length; i++) {
+      uint8_ptr[i] = image[i];
+    }
+    _setMetaData(
+        uint8_ptr, image.length, artist.toNativeUtf8(), title.toNativeUtf8());
+    malloc.free(uint8_ptr);
+    debugPrint("setMetaData called");
   }
 }

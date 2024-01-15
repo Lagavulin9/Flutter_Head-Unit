@@ -23,7 +23,12 @@
 #define HAS_DEFINED_COMMONAPI_INTERNAL_COMPILATION_HERE
 #endif
 
-#include <vector>
+#include <CommonAPI/Deployment.hpp>
+#include <CommonAPI/InputStream.hpp>
+#include <CommonAPI/OutputStream.hpp>
+#include <CommonAPI/Struct.hpp>
+#include <cstdint>
+#include <string>
 
 #include <mutex>
 
@@ -51,10 +56,8 @@ class HeadUnitStubAdapter
     virtual void fireLightModeAttributeChanged(const bool &lightMode) = 0;
     ///Notifies all remote listeners about a change of value of the attribute unit.
     virtual void fireUnitAttributeChanged(const std::string &unit) = 0;
-    ///Notifies all remote listeners about a change of value of the attribute mediaImage.
-    virtual void fireMediaImageAttributeChanged(const std::vector< uint8_t > &mediaImage) = 0;
-    ///Notifies all remote listeners about a change of value of the attribute mediaName.
-    virtual void fireMediaNameAttributeChanged(const std::string &mediaName) = 0;
+    ///Notifies all remote listeners about a change of value of the attribute metadata.
+    virtual void fireMetadataAttributeChanged(const ::v0::commonapi::HeadUnit::MetaData &metadata) = 0;
 
 
     virtual void deactivateManagedInstances() = 0;
@@ -73,18 +76,11 @@ class HeadUnitStubAdapter
             unitMutex_.unlock();
         }
     }
-    void lockMediaImageAttribute(bool _lockAccess) {
+    void lockMetadataAttribute(bool _lockAccess) {
         if (_lockAccess) {
-            mediaImageMutex_.lock();
+            metadataMutex_.lock();
         } else {
-            mediaImageMutex_.unlock();
-        }
-    }
-    void lockMediaNameAttribute(bool _lockAccess) {
-        if (_lockAccess) {
-            mediaNameMutex_.lock();
-        } else {
-            mediaNameMutex_.unlock();
+            metadataMutex_.unlock();
         }
     }
 
@@ -95,8 +91,7 @@ protected:
      */
     std::recursive_mutex lightModeMutex_;
     std::recursive_mutex unitMutex_;
-    std::recursive_mutex mediaImageMutex_;
-    std::recursive_mutex mediaNameMutex_;
+    std::recursive_mutex metadataMutex_;
 
 };
 
@@ -133,7 +128,7 @@ public:
     virtual ~HeadUnitStub() {}
     void lockInterfaceVersionAttribute(bool _lockAccess) { static_cast<void>(_lockAccess); }
     bool hasElement(const uint32_t _id) const {
-        return (_id < 4);
+        return (_id < 3);
     }
     virtual const CommonAPI::Version& getInterfaceVersion(std::shared_ptr<CommonAPI::ClientId> _client) = 0;
 
@@ -163,31 +158,18 @@ public:
         if (stubAdapter)
             stubAdapter->lockUnitAttribute(_lockAccess);
     }
-    /// Provides getter access to the attribute mediaImage
-    virtual const std::vector< uint8_t > &getMediaImageAttribute(const std::shared_ptr<CommonAPI::ClientId> _client) = 0;
+    /// Provides getter access to the attribute metadata
+    virtual const ::v0::commonapi::HeadUnit::MetaData &getMetadataAttribute(const std::shared_ptr<CommonAPI::ClientId> _client) = 0;
     /// sets attribute with the given value and propagates it to the adapter
-    virtual void fireMediaImageAttributeChanged(std::vector< uint8_t > _value) {
+    virtual void fireMetadataAttributeChanged(::v0::commonapi::HeadUnit::MetaData _value) {
     auto stubAdapter = CommonAPI::Stub<HeadUnitStubAdapter, HeadUnitStubRemoteEvent>::stubAdapter_.lock();
     if (stubAdapter)
-        stubAdapter->fireMediaImageAttributeChanged(_value);
+        stubAdapter->fireMetadataAttributeChanged(_value);
     }
-    void lockMediaImageAttribute(bool _lockAccess) {
+    void lockMetadataAttribute(bool _lockAccess) {
         auto stubAdapter = CommonAPI::Stub<HeadUnitStubAdapter, HeadUnitStubRemoteEvent>::stubAdapter_.lock();
         if (stubAdapter)
-            stubAdapter->lockMediaImageAttribute(_lockAccess);
-    }
-    /// Provides getter access to the attribute mediaName
-    virtual const std::string &getMediaNameAttribute(const std::shared_ptr<CommonAPI::ClientId> _client) = 0;
-    /// sets attribute with the given value and propagates it to the adapter
-    virtual void fireMediaNameAttributeChanged(std::string _value) {
-    auto stubAdapter = CommonAPI::Stub<HeadUnitStubAdapter, HeadUnitStubRemoteEvent>::stubAdapter_.lock();
-    if (stubAdapter)
-        stubAdapter->fireMediaNameAttributeChanged(_value);
-    }
-    void lockMediaNameAttribute(bool _lockAccess) {
-        auto stubAdapter = CommonAPI::Stub<HeadUnitStubAdapter, HeadUnitStubRemoteEvent>::stubAdapter_.lock();
-        if (stubAdapter)
-            stubAdapter->lockMediaNameAttribute(_lockAccess);
+            stubAdapter->lockMetadataAttribute(_lockAccess);
     }
 
 

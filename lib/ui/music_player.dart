@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:flutter_head_unit/provider/commonAPI.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:metadata_god/metadata_god.dart';
@@ -11,6 +13,7 @@ import 'package:rxdart/rxdart.dart';
 
 class MetadataWidget extends StatelessWidget {
   MetadataWidget({super.key, required this.player});
+  final CommonAPI bridge = CommonAPI();
 
   final Player player;
   final Widget default_image = DecoratedBox(
@@ -52,6 +55,11 @@ class MetadataWidget extends StatelessWidget {
               future: MetadataGod.readMetadata(file: _selected_file),
               builder: (context, snapshot) {
                 final metadata = snapshot.data;
+                final Uint8List rawImage =
+                    metadata?.picture?.data ?? Uint8List(0);
+                final String artist = metadata?.artist ?? "Unknown Artist";
+                final String title = metadata?.title ?? "Unknown Title";
+                bridge.setMetaData(rawImage, artist, title);
                 final Widget AlbumCover = metadata?.picture == null
                     ? default_image
                     : DecoratedBox(

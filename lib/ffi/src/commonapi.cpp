@@ -196,10 +196,20 @@ void setLightMode(bool value)
 }
 
 EXPORT
-void setUnit(const char* input)
+void setUnit(const char* unit)
 {
-	std::string unit(input);
 	headUnitService->setUnitAttribute(unit);
+}
+
+EXPORT 
+void setMetaData(const uint8_t* _image, int length, const char* artist, const char* title)
+{
+	HeadUnit::MetaData metadata;
+	std::vector<uint8_t> image(_image, _image + length);
+	metadata.setAlbumcover(image);
+	metadata.setArtist(artist);
+	metadata.setTitle(title);
+	headUnitService->setMetadataAttribute(metadata);
 }
 
 // EXPORT

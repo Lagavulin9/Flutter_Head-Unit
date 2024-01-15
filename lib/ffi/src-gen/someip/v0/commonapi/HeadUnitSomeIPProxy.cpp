@@ -49,8 +49,7 @@ HeadUnitSomeIPProxy::HeadUnitSomeIPProxy(
         : CommonAPI::SomeIP::Proxy(_address, _connection),
           lightMode_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x17d4), CommonAPI::SomeIP::event_id_t(0xee48), CommonAPI::SomeIP::method_id_t(0x17d5), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::EmptyDeployment* >(nullptr)),
           unit_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x1838), CommonAPI::SomeIP::event_id_t(0xf230), CommonAPI::SomeIP::method_id_t(0x1839), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::StringDeployment* >(nullptr)),
-          mediaImage_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x189c), CommonAPI::SomeIP::event_id_t(0xf618), CommonAPI::SomeIP::method_id_t(0x189d), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >* >(nullptr)),
-          mediaName_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x1900), CommonAPI::SomeIP::event_id_t(0xfa00), CommonAPI::SomeIP::method_id_t(0x1901), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< CommonAPI::SomeIP::StringDeployment* >(nullptr))
+          metadata_(*this, CommonAPI::SomeIP::eventgroup_id_t(0x189c), CommonAPI::SomeIP::event_id_t(0xf618), CommonAPI::SomeIP::method_id_t(0x189d), true, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE, false, static_cast< ::v0::commonapi::HeadUnit_::MetaDataDeployment_t* >(nullptr))
 {
 }
 
@@ -63,11 +62,8 @@ HeadUnitSomeIPProxy::LightModeAttribute& HeadUnitSomeIPProxy::getLightModeAttrib
 HeadUnitSomeIPProxy::UnitAttribute& HeadUnitSomeIPProxy::getUnitAttribute() {
     return unit_;
 }
-HeadUnitSomeIPProxy::MediaImageAttribute& HeadUnitSomeIPProxy::getMediaImageAttribute() {
-    return mediaImage_;
-}
-HeadUnitSomeIPProxy::MediaNameAttribute& HeadUnitSomeIPProxy::getMediaNameAttribute() {
-    return mediaName_;
+HeadUnitSomeIPProxy::MetadataAttribute& HeadUnitSomeIPProxy::getMetadataAttribute() {
+    return metadata_;
 }
 
 

@@ -19,20 +19,12 @@ define org.genivi.commonapi.someip.deployment for interface commonapi.HeadUnit {
         SomeIpAttributeReliable = true
     }
 
-    attribute mediaImage {
+    attribute metadata {
         SomeIpNotifierEventGroups = { 6300 }
         SomeIpNotifierID = 63000
         SomeIpGetterID = 6301
         SomeIpAttributeReliable = true
     }
-
-    attribute mediaName {
-        SomeIpNotifierEventGroups = { 6400 }
-        SomeIpNotifierID = 64000
-        SomeIpGetterID = 6401
-        SomeIpAttributeReliable = true
-    }
-
 }
 
 define org.genivi.commonapi.someip.deployment for provider as Service {

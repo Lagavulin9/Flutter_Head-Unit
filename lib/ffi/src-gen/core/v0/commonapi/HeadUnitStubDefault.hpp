@@ -86,30 +86,17 @@ public:
             fireUnitAttributeChanged(unitAttributeValue_);
         }
     }
-    COMMONAPI_EXPORT virtual const std::vector< uint8_t > &getMediaImageAttribute() {
-        return mediaImageAttributeValue_;
+    COMMONAPI_EXPORT virtual const ::v0::commonapi::HeadUnit::MetaData &getMetadataAttribute() {
+        return metadataAttributeValue_;
     }
-    COMMONAPI_EXPORT virtual const std::vector< uint8_t > &getMediaImageAttribute(const std::shared_ptr<CommonAPI::ClientId> _client) {
+    COMMONAPI_EXPORT virtual const ::v0::commonapi::HeadUnit::MetaData &getMetadataAttribute(const std::shared_ptr<CommonAPI::ClientId> _client) {
         (void)_client;
-        return getMediaImageAttribute();
+        return getMetadataAttribute();
     }
-    COMMONAPI_EXPORT virtual void setMediaImageAttribute(std::vector< uint8_t > _value) {
-        const bool valueChanged = trySetMediaImageAttribute(std::move(_value));
+    COMMONAPI_EXPORT virtual void setMetadataAttribute(::v0::commonapi::HeadUnit::MetaData _value) {
+        const bool valueChanged = trySetMetadataAttribute(std::move(_value));
         if (valueChanged) {
-            fireMediaImageAttributeChanged(mediaImageAttributeValue_);
-        }
-    }
-    COMMONAPI_EXPORT virtual const std::string &getMediaNameAttribute() {
-        return mediaNameAttributeValue_;
-    }
-    COMMONAPI_EXPORT virtual const std::string &getMediaNameAttribute(const std::shared_ptr<CommonAPI::ClientId> _client) {
-        (void)_client;
-        return getMediaNameAttribute();
-    }
-    COMMONAPI_EXPORT virtual void setMediaNameAttribute(std::string _value) {
-        const bool valueChanged = trySetMediaNameAttribute(std::move(_value));
-        if (valueChanged) {
-            fireMediaNameAttributeChanged(mediaNameAttributeValue_);
+            fireMetadataAttributeChanged(metadataAttributeValue_);
         }
     }
 
@@ -159,47 +146,25 @@ protected:
         (void)_value;
         return true;
     }
-    COMMONAPI_EXPORT virtual bool trySetMediaImageAttribute(std::vector< uint8_t > _value) {
-        if (!validateMediaImageAttributeRequestedValue(_value))
+    COMMONAPI_EXPORT virtual bool trySetMetadataAttribute(::v0::commonapi::HeadUnit::MetaData _value) {
+        if (!validateMetadataAttributeRequestedValue(_value))
             return false;
 
         bool valueChanged;
         std::shared_ptr<HeadUnitStubAdapter> stubAdapter = CommonAPI::Stub<HeadUnitStubAdapter, HeadUnitStubRemoteEvent>::stubAdapter_.lock();
         if(stubAdapter) {
-            stubAdapter->lockMediaImageAttribute(true);
-            valueChanged = (mediaImageAttributeValue_ != _value);
-            mediaImageAttributeValue_ = std::move(_value);
-            stubAdapter->lockMediaImageAttribute(false);
+            stubAdapter->lockMetadataAttribute(true);
+            valueChanged = (metadataAttributeValue_ != _value);
+            metadataAttributeValue_ = std::move(_value);
+            stubAdapter->lockMetadataAttribute(false);
         } else {
-            valueChanged = (mediaImageAttributeValue_ != _value);
-            mediaImageAttributeValue_ = std::move(_value);
+            valueChanged = (metadataAttributeValue_ != _value);
+            metadataAttributeValue_ = std::move(_value);
         }
 
        return valueChanged;
     }
-    COMMONAPI_EXPORT virtual bool validateMediaImageAttributeRequestedValue(const std::vector< uint8_t > &_value) {
-        (void)_value;
-        return true;
-    }
-    COMMONAPI_EXPORT virtual bool trySetMediaNameAttribute(std::string _value) {
-        if (!validateMediaNameAttributeRequestedValue(_value))
-            return false;
-
-        bool valueChanged;
-        std::shared_ptr<HeadUnitStubAdapter> stubAdapter = CommonAPI::Stub<HeadUnitStubAdapter, HeadUnitStubRemoteEvent>::stubAdapter_.lock();
-        if(stubAdapter) {
-            stubAdapter->lockMediaNameAttribute(true);
-            valueChanged = (mediaNameAttributeValue_ != _value);
-            mediaNameAttributeValue_ = std::move(_value);
-            stubAdapter->lockMediaNameAttribute(false);
-        } else {
-            valueChanged = (mediaNameAttributeValue_ != _value);
-            mediaNameAttributeValue_ = std::move(_value);
-        }
-
-       return valueChanged;
-    }
-    COMMONAPI_EXPORT virtual bool validateMediaNameAttributeRequestedValue(const std::string &_value) {
+    COMMONAPI_EXPORT virtual bool validateMetadataAttributeRequestedValue(const ::v0::commonapi::HeadUnit::MetaData &_value) {
         (void)_value;
         return true;
     }
@@ -221,8 +186,7 @@ private:
 
     bool lightModeAttributeValue_ {};
     std::string unitAttributeValue_ {};
-    std::vector< uint8_t > mediaImageAttributeValue_ {};
-    std::string mediaNameAttributeValue_ {};
+    ::v0::commonapi::HeadUnit::MetaData metadataAttributeValue_ {};
 
     CommonAPI::Version interfaceVersion_;
 };

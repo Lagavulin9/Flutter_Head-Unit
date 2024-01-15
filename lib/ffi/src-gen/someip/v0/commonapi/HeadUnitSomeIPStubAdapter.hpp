@@ -11,6 +11,7 @@
 #define V0_COMMONAPI_HEAD_UNIT_SOMEIP_STUB_ADAPTER_HPP_
 
 #include <v0/commonapi/HeadUnitStub.hpp>
+#include <v0/commonapi/HeadUnitSomeIPDeployment.hpp>
 
 #if !defined (COMMONAPI_INTERNAL_COMPILATION)
 #define COMMONAPI_INTERNAL_COMPILATION
@@ -50,9 +51,7 @@ public:
     
     void fireUnitAttributeChanged(const std::string &_value);
     
-    void fireMediaImageAttributeChanged(const std::vector< uint8_t > &_value);
-    
-    void fireMediaNameAttributeChanged(const std::string &_value);
+    void fireMetadataAttributeChanged(const ::v0::commonapi::HeadUnit::MetaData &_value);
     
     void deactivateManagedInstances() {}
     
@@ -74,15 +73,9 @@ public:
     
     CommonAPI::SomeIP::GetAttributeStubDispatcher<
         ::v0::commonapi::HeadUnitStub,
-        std::vector< uint8_t >,
-        CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >
-    > getMediaImageAttributeStubDispatcher;
-    
-    CommonAPI::SomeIP::GetAttributeStubDispatcher<
-        ::v0::commonapi::HeadUnitStub,
-        std::string,
-        CommonAPI::SomeIP::StringDeployment
-    > getMediaNameAttributeStubDispatcher;
+        ::v0::commonapi::HeadUnit::MetaData,
+        ::v0::commonapi::HeadUnit_::MetaDataDeployment_t
+    > getMetadataAttributeStubDispatcher;
     
     HeadUnitSomeIPStubAdapterInternal(
         const CommonAPI::SomeIP::Address &_address,
@@ -106,22 +99,15 @@ public:
             false,
             _stub->hasElement(1))
         ,
-        getMediaImageAttributeStubDispatcher(
-            &::v0::commonapi::HeadUnitStub::lockMediaImageAttribute,
-            &::v0::commonapi::HeadUnitStub::getMediaImageAttribute,
+        getMetadataAttributeStubDispatcher(
+            &::v0::commonapi::HeadUnitStub::lockMetadataAttribute,
+            &::v0::commonapi::HeadUnitStub::getMetadataAttribute,
             false,
             _stub->hasElement(2))
-        ,
-        getMediaNameAttributeStubDispatcher(
-            &::v0::commonapi::HeadUnitStub::lockMediaNameAttribute,
-            &::v0::commonapi::HeadUnitStub::getMediaNameAttribute,
-            false,
-            _stub->hasElement(3))
     {
         HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x17d5) }, &getLightModeAttributeStubDispatcher );
         HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x1839) }, &getUnitAttributeStubDispatcher );
-        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x189d) }, &getMediaImageAttributeStubDispatcher );
-        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x1901) }, &getMediaNameAttributeStubDispatcher );
+        HeadUnitSomeIPStubAdapterHelper::addStubDispatcher( { CommonAPI::SomeIP::method_id_t(0x189d) }, &getMetadataAttributeStubDispatcher );
         std::shared_ptr<CommonAPI::SomeIP::ClientId> itsClient = std::make_shared<CommonAPI::SomeIP::ClientId>();
 
         // Provided events/fields
@@ -143,14 +129,7 @@ public:
             std::set<CommonAPI::SomeIP::eventgroup_id_t> itsEventGroups;
             itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x189c)));
             CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0xf618), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
-            fireMediaImageAttributeChanged(std::dynamic_pointer_cast< ::v0::commonapi::HeadUnitStub>(_stub)->getMediaImageAttribute(itsClient));
-        }
-
-        if (_stub->hasElement(3)) {
-            std::set<CommonAPI::SomeIP::eventgroup_id_t> itsEventGroups;
-            itsEventGroups.insert(CommonAPI::SomeIP::eventgroup_id_t(CommonAPI::SomeIP::eventgroup_id_t(0x1900)));
-            CommonAPI::SomeIP::StubAdapter::registerEvent(CommonAPI::SomeIP::event_id_t(0xfa00), itsEventGroups, CommonAPI::SomeIP::event_type_e::ET_FIELD, CommonAPI::SomeIP::reliability_type_e::RT_RELIABLE);
-            fireMediaNameAttributeChanged(std::dynamic_pointer_cast< ::v0::commonapi::HeadUnitStub>(_stub)->getMediaNameAttribute(itsClient));
+            fireMetadataAttributeChanged(std::dynamic_pointer_cast< ::v0::commonapi::HeadUnitStub>(_stub)->getMetadataAttribute(itsClient));
         }
 
     }
@@ -194,36 +173,18 @@ void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireUnitAttributeChang
 }
 
 template <typename _Stub, typename... _Stubs>
-void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireMediaImageAttributeChanged(const std::vector< uint8_t > &_value) {
-    CommonAPI::Deployable< std::vector< uint8_t >, CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >> deployedValue(_value, static_cast< CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >* >(nullptr));
+void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireMetadataAttributeChanged(const ::v0::commonapi::HeadUnit::MetaData &_value) {
+    CommonAPI::Deployable< ::v0::commonapi::HeadUnit::MetaData, ::v0::commonapi::HeadUnit_::MetaDataDeployment_t> deployedValue(_value, static_cast< ::v0::commonapi::HeadUnit_::MetaDataDeployment_t* >(nullptr));
     CommonAPI::SomeIP::StubEventHelper<
         CommonAPI::SomeIP::SerializableArguments<
             CommonAPI::Deployable<
-                std::vector< uint8_t >,
-                CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >
+                ::v0::commonapi::HeadUnit::MetaData,
+                ::v0::commonapi::HeadUnit_::MetaDataDeployment_t
             >
             >
     >::sendEvent(
         *this,
         CommonAPI::SomeIP::event_id_t(0xf618),
-        false,
-        deployedValue
-    );
-}
-
-template <typename _Stub, typename... _Stubs>
-void HeadUnitSomeIPStubAdapterInternal<_Stub, _Stubs...>::fireMediaNameAttributeChanged(const std::string &_value) {
-    CommonAPI::Deployable< std::string, CommonAPI::SomeIP::StringDeployment> deployedValue(_value, static_cast< CommonAPI::SomeIP::StringDeployment* >(nullptr));
-    CommonAPI::SomeIP::StubEventHelper<
-        CommonAPI::SomeIP::SerializableArguments<
-            CommonAPI::Deployable<
-                std::string,
-                CommonAPI::SomeIP::StringDeployment
-            >
-            >
-    >::sendEvent(
-        *this,
-        CommonAPI::SomeIP::event_id_t(0xfa00),
         false,
         deployedValue
     );

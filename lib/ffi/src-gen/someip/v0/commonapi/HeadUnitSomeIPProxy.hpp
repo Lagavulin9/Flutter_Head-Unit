@@ -11,6 +11,7 @@
 #define V0_COMMONAPI_HEAD_UNIT_SOMEIP_PROXY_HPP_
 
 #include <v0/commonapi/HeadUnitProxyBase.hpp>
+#include <v0/commonapi/HeadUnitSomeIPDeployment.hpp>
 
 #if !defined (COMMONAPI_INTERNAL_COMPILATION)
 #define COMMONAPI_INTERNAL_COMPILATION
@@ -58,9 +59,7 @@ public:
 
     virtual UnitAttribute& getUnitAttribute();
 
-    virtual MediaImageAttribute& getMediaImageAttribute();
-
-    virtual MediaNameAttribute& getMediaNameAttribute();
+    virtual MetadataAttribute& getMetadataAttribute();
 
     virtual void getOwnVersion(uint16_t &_major, uint16_t &_minor) const;
 
@@ -69,8 +68,7 @@ public:
 private:
     CommonAPI::SomeIP::ObservableAttribute<CommonAPI::SomeIP::ReadonlyAttribute<LightModeAttribute>> lightMode_;
     CommonAPI::SomeIP::ObservableAttribute<CommonAPI::SomeIP::ReadonlyAttribute<UnitAttribute, CommonAPI::SomeIP::StringDeployment>> unit_;
-    CommonAPI::SomeIP::ObservableAttribute<CommonAPI::SomeIP::ReadonlyAttribute<MediaImageAttribute, CommonAPI::SomeIP::ArrayDeployment< CommonAPI::SomeIP::IntegerDeployment<uint8_t> >>> mediaImage_;
-    CommonAPI::SomeIP::ObservableAttribute<CommonAPI::SomeIP::ReadonlyAttribute<MediaNameAttribute, CommonAPI::SomeIP::StringDeployment>> mediaName_;
+    CommonAPI::SomeIP::ObservableAttribute<CommonAPI::SomeIP::ReadonlyAttribute<MetadataAttribute, ::v0::commonapi::HeadUnit_::MetaDataDeployment_t>> metadata_;
 
 };
 

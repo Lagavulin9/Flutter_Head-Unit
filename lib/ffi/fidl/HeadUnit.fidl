@@ -5,6 +5,11 @@ interface HeadUnit {
 
     attribute Boolean lightMode readonly
     attribute String unit readonly
-    attribute UInt8[] mediaImage readonly
-    attribute String mediaName readonly
+    attribute MetaData metadata readonly
+
+    struct MetaData {
+        UInt8[] albumcover
+        String artist
+        String title
+    }
 }

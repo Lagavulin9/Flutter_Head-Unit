@@ -7,9 +7,8 @@
 * If a copy of the MPL was not distributed with this file, You can obtain one at
 * http://mozilla.org/MPL/2.0/.
 */
-#ifndef V0_COMMONAPI_HEAD_UNIT_HPP_
-#define V0_COMMONAPI_HEAD_UNIT_HPP_
-
+#ifndef V0_COMMONAPI_Common_Types_HPP_
+#define V0_COMMONAPI_Common_Types_HPP_
 
 
 
@@ -34,12 +33,7 @@
 namespace v0 {
 namespace commonapi {
 
-class HeadUnit {
-public:
-    virtual ~HeadUnit() { }
-
-    static inline const char* getInterface();
-    static inline CommonAPI::Version getInterfaceVersion();
+struct CommonTypes {
     struct MetaData : CommonAPI::Struct< std::vector< uint8_t >, std::string, std::string> {
     
         MetaData()
@@ -48,36 +42,38 @@ public:
             std::get< 1>(values_) = "";
             std::get< 2>(values_) = "";
         }
-        MetaData(const std::vector< uint8_t > &_albumcover, const std::string &_artist, const std::string &_title)
+        MetaData(const std::vector< uint8_t > &_albumcover, const std::string &_artrist, const std::string &_title)
         {
             std::get< 0>(values_) = _albumcover;
-            std::get< 1>(values_) = _artist;
+            std::get< 1>(values_) = _artrist;
             std::get< 2>(values_) = _title;
         }
         inline const std::vector< uint8_t > &getAlbumcover() const { return std::get< 0>(values_); }
         inline void setAlbumcover(const std::vector< uint8_t > &_value) { std::get< 0>(values_) = _value; }
-        inline const std::string &getArtist() const { return std::get< 1>(values_); }
-        inline void setArtist(const std::string &_value) { std::get< 1>(values_) = _value; }
+        inline const std::string &getArtrist() const { return std::get< 1>(values_); }
+        inline void setArtrist(const std::string &_value) { std::get< 1>(values_) = _value; }
         inline const std::string &getTitle() const { return std::get< 2>(values_); }
         inline void setTitle(const std::string &_value) { std::get< 2>(values_) = _value; }
         inline bool operator==(const MetaData& _other) const {
-        return (getAlbumcover() == _other.getAlbumcover() && getArtist() == _other.getArtist() && getTitle() == _other.getTitle());
+        return (getAlbumcover() == _other.getAlbumcover() && getArtrist() == _other.getArtrist() && getTitle() == _other.getTitle());
         }
         inline bool operator!=(const MetaData &_other) const {
             return !((*this) == _other);
         }
     
     };
-};
 
-const char* HeadUnit::getInterface() {
-    return ("commonapi.HeadUnit:v0_1");
+
+static inline const char* getTypeCollectionName() {
+    static const char* typeCollectionName = "commonapi.CommonTypes";
+    return typeCollectionName;
 }
 
-CommonAPI::Version HeadUnit::getInterfaceVersion() {
+inline CommonAPI::Version getTypeCollectionVersion() {
     return CommonAPI::Version(0, 1);
 }
 
+}; // struct CommonTypes
 
 } // namespace commonapi
 } // namespace v0
@@ -86,7 +82,11 @@ namespace CommonAPI {
 }
 
 
+namespace std {
+}
+
+
 // Compatibility
 namespace v0_1 = v0;
 
-#endif // V0_COMMONAPI_HEAD_UNIT_HPP_
+#endif // V0_COMMONAPI_Common_Types_HPP_

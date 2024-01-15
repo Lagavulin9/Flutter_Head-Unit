@@ -83,16 +83,10 @@ public:
         return delegate_->getUnitAttribute();
     }
     /**
-     * Returns the wrapper class that provides access to the attribute mediaImage.
+     * Returns the wrapper class that provides access to the attribute metadata.
      */
-    virtual MediaImageAttribute& getMediaImageAttribute() {
-        return delegate_->getMediaImageAttribute();
-    }
-    /**
-     * Returns the wrapper class that provides access to the attribute mediaName.
-     */
-    virtual MediaNameAttribute& getMediaNameAttribute() {
-        return delegate_->getMediaNameAttribute();
+    virtual MetadataAttribute& getMetadataAttribute() {
+        return delegate_->getMetadataAttribute();
     }
 
 
@@ -143,36 +137,17 @@ namespace HeadUnitExtensions {
     };
 
     template <template <typename > class _ExtensionType>
-    class MediaImageAttributeExtension {
+    class MetadataAttributeExtension {
      public:
-        typedef _ExtensionType< HeadUnitProxyBase::MediaImageAttribute> extension_type;
+        typedef _ExtensionType< HeadUnitProxyBase::MetadataAttribute> extension_type;
     
-        static_assert(std::is_base_of<typename CommonAPI::AttributeExtension< HeadUnitProxyBase::MediaImageAttribute>, extension_type>::value,
+        static_assert(std::is_base_of<typename CommonAPI::AttributeExtension< HeadUnitProxyBase::MetadataAttribute>, extension_type>::value,
                       "Not CommonAPI Attribute Extension!");
     
-        MediaImageAttributeExtension(HeadUnitProxyBase& proxy): attributeExtension_(proxy.getMediaImageAttribute()) {
+        MetadataAttributeExtension(HeadUnitProxyBase& proxy): attributeExtension_(proxy.getMetadataAttribute()) {
         }
     
-        inline extension_type& getMediaImageAttributeExtension() {
-            return attributeExtension_;
-        }
-    
-     private:
-        extension_type attributeExtension_;
-    };
-
-    template <template <typename > class _ExtensionType>
-    class MediaNameAttributeExtension {
-     public:
-        typedef _ExtensionType< HeadUnitProxyBase::MediaNameAttribute> extension_type;
-    
-        static_assert(std::is_base_of<typename CommonAPI::AttributeExtension< HeadUnitProxyBase::MediaNameAttribute>, extension_type>::value,
-                      "Not CommonAPI Attribute Extension!");
-    
-        MediaNameAttributeExtension(HeadUnitProxyBase& proxy): attributeExtension_(proxy.getMediaNameAttribute()) {
-        }
-    
-        inline extension_type& getMediaNameAttributeExtension() {
+        inline extension_type& getMetadataAttributeExtension() {
             return attributeExtension_;
         }
     
@@ -237,8 +212,7 @@ struct DefaultAttributeProxyHelper< ::v0::commonapi::HeadUnitProxy,
     typedef typename ::v0::commonapi::HeadUnitProxy<
             ::v0::commonapi::HeadUnitExtensions::LightModeAttributeExtension<_AttributeExtension>, 
             ::v0::commonapi::HeadUnitExtensions::UnitAttributeExtension<_AttributeExtension>, 
-            ::v0::commonapi::HeadUnitExtensions::MediaImageAttributeExtension<_AttributeExtension>, 
-            ::v0::commonapi::HeadUnitExtensions::MediaNameAttributeExtension<_AttributeExtension>
+            ::v0::commonapi::HeadUnitExtensions::MetadataAttributeExtension<_AttributeExtension>
     > class_t;
 };
 }

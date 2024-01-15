@@ -8,8 +8,8 @@
  * http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef V0_COMMONAPI_Head_Unit_SOMEIP_DEPLOYMENT_HPP_
-#define V0_COMMONAPI_Head_Unit_SOMEIP_DEPLOYMENT_HPP_
+#ifndef V0_COMMONAPI_COMMON_TYPES_SOMEIP_DEPLOYMENT_HPP_
+#define V0_COMMONAPI_COMMON_TYPES_SOMEIP_DEPLOYMENT_HPP_
 
 
 #if !defined (COMMONAPI_INTERNAL_COMPILATION)
@@ -24,9 +24,9 @@
 
 namespace v0 {
 namespace commonapi {
-namespace HeadUnit_ {
+namespace CommonTypes_ {
 
-// Interface-specific deployment types
+// typecollection-specific deployment types
 typedef CommonAPI::SomeIP::StructDeployment<
     CommonAPI::SomeIP::ArrayDeployment<
         CommonAPI::SomeIP::IntegerDeployment<uint8_t>
@@ -35,16 +35,11 @@ typedef CommonAPI::SomeIP::StructDeployment<
     CommonAPI::SomeIP::StringDeployment
 > MetaDataDeployment_t;
 
-// Type-specific deployments
 
-// Attribute-specific deployments
+// typecollection-specific deployments
 
-// Argument-specific deployment
-
-// Broadcast-specific deployments
-
-} // namespace HeadUnit_
+} // namespace CommonTypes_
 } // namespace commonapi
 } // namespace v0
 
-#endif // V0_COMMONAPI_Head_Unit_SOMEIP_DEPLOYMENT_HPP_
+#endif // V0_COMMONAPI_COMMON_TYPES_SOMEIP_DEPLOYMENT_HPP_
