@@ -88,7 +88,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         ))
                       : SingleChildScrollView(
                           child: CupertinoListSection.insetGrouped(
-                            header: const Text("From device"),
+                            header: Text(
+                              "From device",
+                              style: TextStyle(color: themeModel.textColor),
+                            ),
                             children: List.generate(files.length, (index) {
                               final item = files[index];
                               return FutureBuilder(
@@ -113,7 +116,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                                 image: MemoryImage(
                                                     metadata!.picture!.data)),
                                         title: Text(
-                                            metadata?.title ?? "Unknown Title"),
+                                          metadata?.title ?? "Unknown Title",
+                                          style: TextStyle(
+                                              color: themeModel.textColor),
+                                        ),
                                         onTap: () {
                                           player.jump(index);
                                         },

@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class VideoPlayer extends StatefulWidget {
   const VideoPlayer({super.key});
@@ -58,10 +60,14 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      const CupertinoSliverNavigationBar(
+    final themeModel = Provider.of<ThemeModel>(context);
+    return CustomScrollView(physics: NeverScrollableScrollPhysics(), slivers: [
+      CupertinoSliverNavigationBar(
         automaticallyImplyLeading: false,
-        largeTitle: Text("Video"),
+        largeTitle: Text(
+          "Video",
+          style: TextStyle(fontSize: 40, color: themeModel.textColor),
+        ),
       ),
       SliverFillRemaining(
           child: Scaffold(
@@ -77,13 +83,21 @@ class _VideoPlayerState extends State<VideoPlayer> {
                         header: Text("Error Occured"));
                   } else {
                     return CupertinoListSection.insetGrouped(
-                      header: const Text("From device",
-                          style: TextStyle(fontSize: 20)),
+                      header: Text("From device",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color:
+                                  Provider.of<ThemeModel>(context).textColor)),
                       children: List.generate(files.length, (index) {
                         final fileName =
                             basename(player.state.playlist.medias[index].uri);
                         return CupertinoListTile.notched(
-                          title: Text(fileName),
+                          title: Text(
+                            fileName,
+                            style: TextStyle(
+                                color:
+                                    Provider.of<ThemeModel>(context).textColor),
+                          ),
                           onTap: () {
                             player.jump(index);
                           },
@@ -104,8 +118,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
                     stream: player.stream.playlist,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return const Text("Not playing",
-                            style: TextStyle(fontSize: 30));
+                        return Text("Not playing",
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Provider.of<ThemeModel>(context)
+                                    .textColor));
                       }
                       final index = snapshot.data!.index;
                       final fileName =
@@ -128,9 +145,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
-          child: const Icon(
+          child: Icon(
             CupertinoIcons.list_bullet_below_rectangle,
             size: 50,
+            color: Provider.of<ThemeModel>(context).iconColor,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,

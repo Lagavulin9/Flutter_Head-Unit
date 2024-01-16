@@ -112,9 +112,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: CupertinoButton(
-        child: const Icon(
-          Icons.dashboard,
-          color: Color.fromRGBO(0, 0, 0, 0.4),
+        child: Icon(
+          CupertinoIcons.ellipsis_vertical,
+          color: Provider.of<ThemeModel>(context).iconColor,
           size: 60,
         ),
         onPressed: () {

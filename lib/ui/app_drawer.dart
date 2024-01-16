@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/pages/car_info.dart';
 import 'package:flutter_head_unit/pages/music_player.dart';
@@ -31,7 +32,8 @@ class AppDrawer extends StatelessWidget {
           child: ListView(
             children: [
               ListTile(
-                  leading: const Icon(Icons.music_note, size: 30),
+                  leading:
+                      const Icon(CupertinoIcons.double_music_note, size: 30),
                   title: const Text(
                     "Music",
                     style: TextStyle(fontSize: 30),
@@ -53,7 +55,7 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pop(context);
                   }),
               ListTile(
-                  leading: const Icon(Icons.time_to_leave, size: 30),
+                  leading: const Icon(CupertinoIcons.car_detailed, size: 30),
                   title: const Text(
                     "Car Info",
                     style: TextStyle(fontSize: 30),
@@ -64,7 +66,7 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pop(context);
                   }),
               ListTile(
-                  leading: const Icon(Icons.settings, size: 30),
+                  leading: const Icon(CupertinoIcons.gear_alt_fill, size: 30),
                   title: const Text(
                     "Settings",
                     style: TextStyle(fontSize: 30),
