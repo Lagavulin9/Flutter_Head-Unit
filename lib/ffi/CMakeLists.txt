@@ -31,6 +31,7 @@ FILE(GLOB PRJ_SOMEIP_LIB_SRCS ./src-gen/someip/v${MAJOR_VERSION}/${APP_PACKAGE_N
 add_library(HeadUnit-someip
   SHARED
   src/commonapi.cpp
+  src/CarControlProxy.cpp
   src/HeadUnitStubImpl.cpp
   ${PRJ_SOMEIP_LIB_SRCS}
 )

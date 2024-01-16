@@ -1,7 +1,11 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/app_controller.dart';
 import 'package:flutter_head_unit/provider/car_control_provider.dart';
+import 'package:flutter_head_unit/provider/commonAPI.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:flutter_head_unit/ui/app_drawer.dart';
 import 'package:flutter_head_unit/ui/clock.dart';
@@ -13,7 +17,15 @@ import 'package:window_manager/window_manager.dart';
 
 const double displayWidth = 1024;
 const double displayHeight = 600;
-void main() async {
+
+void _initMetaData() async {
+  File imageFile = File('assets/unknown-album.png');
+  Uint8List bytes = await imageFile.readAsBytes();
+  final CommonAPI bridge = CommonAPI();
+  bridge.setMetaData(bytes, "Not Playing", "");
+}
+
+void _initWindow() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
   MetadataGod.initialize();
@@ -29,6 +41,11 @@ void main() async {
     await windowManager.show();
     await windowManager.focus();
   });
+}
+
+void main() async {
+  _initWindow();
+  _initMetaData();
   runApp(const MyApp());
 }
 

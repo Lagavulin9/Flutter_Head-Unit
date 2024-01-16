@@ -1,13 +1,21 @@
 #ifndef HeadUnitStubImpl_H_
 #define HeadUnitStubImpl_H_
 
+#include <thread>
+#include <mutex>
 #include <CommonAPI/CommonAPI.hpp>
 #include <v0/commonapi/HeadUnitStubDefault.hpp>
 
-class HeadUnitStubImpl: public v0::commonapi::HeadUnitStubDefault
+using namespace v0::commonapi;
+
+class HeadUnitStubImpl: public HeadUnitStubDefault
 {
-public:
+private:
+	static std::shared_ptr<HeadUnitStubImpl> instance;
 	HeadUnitStubImpl();
+
+public:
+	static std::shared_ptr<HeadUnitStubImpl> getInstance();
 	virtual ~HeadUnitStubImpl();
 };
 
