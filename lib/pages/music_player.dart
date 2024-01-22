@@ -109,9 +109,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                       final metadata = snapshot.data;
                                       return CupertinoListTile.notched(
                                         leading: metadata?.picture?.data == null
-                                            ? Image(
-                                                image: FileImage(File(
-                                                    'assets/unknown-album.png')))
+                                            ? Image.asset(
+                                                'assets/unknown-album.png')
                                             : Image(
                                                 image: MemoryImage(
                                                     metadata!.picture!.data)),

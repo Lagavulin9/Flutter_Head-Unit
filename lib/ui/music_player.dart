@@ -22,8 +22,8 @@ class MetadataWidget extends StatelessWidget {
     ], borderRadius: BorderRadius.circular(10)),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
-      child: Image(
-        image: FileImage(File('assets/unknown-album.png')),
+      child: Image.asset(
+        'assets/unknown-album.png',
         width: 200,
         height: 200,
       ),
