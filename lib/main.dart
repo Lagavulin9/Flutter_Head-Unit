@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_head_unit/provider/app_controller.dart';
 import 'package:flutter_head_unit/provider/car_control_provider.dart';
 import 'package:flutter_head_unit/provider/commonAPI.dart';
@@ -13,38 +13,21 @@ import 'package:flutter_head_unit/ui/gear_selection.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:metadata_god/metadata_god.dart';
 import 'package:provider/provider.dart';
-import 'package:window_manager/window_manager.dart';
 
 const double displayWidth = 1024;
 const double displayHeight = 600;
 
 void _initMetaData() async {
-  File imageFile = File('assets/unknown-album.png');
-  Uint8List bytes = await imageFile.readAsBytes();
-  final CommonAPI bridge = CommonAPI();
-  bridge.setMetaData(bytes, "Not Playing", "");
-}
-
-void _initWindow() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
   MetadataGod.initialize();
-  // Must add this line.
-  await windowManager.ensureInitialized();
-
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(displayWidth, displayHeight),
-    //skipTaskbar: false,
-    //titleBarStyle: TitleBarStyle.hidden,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
+  ByteData data = await rootBundle.load('assets/unknown-album.png');
+  Uint8List bytes = data.buffer.asUint8List();
+  CommonAPI bridge = CommonAPI();
+  bridge.setMetaData(bytes, "Not Playing", "");
 }
 
 void main() async {
-  _initWindow();
   _initMetaData();
   runApp(const MyApp());
 }
