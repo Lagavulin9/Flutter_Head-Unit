@@ -11,7 +11,7 @@
 
 using namespace v0::commonapi;
 
-std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<v0::commonapi::CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ccProxy;
+std::shared_ptr<typename CommonAPI::DefaultAttributeProxyHelper<CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>::class_t> ccProxy;
 std::string	_gear("P");
 std::string	_indicator("None");
 std::mutex	_gearMutex;

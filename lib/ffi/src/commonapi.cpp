@@ -8,9 +8,10 @@
 
 #include "HeadUnitStubImpl.hpp"
 
-using namespace v0::commonapi;
-
 std::shared_ptr<CommonAPI::Runtime> runtime;
+std::shared_ptr<HeadUnitStubImpl> huService;
+
+void buildCarControlProxy();
 
 EXPORT
 void init()
@@ -20,5 +21,6 @@ void init()
 	runtime = CommonAPI::Runtime::get();
 	CommonAPI::Runtime::setProperty("LogContext", "HeadUnit");
 	CommonAPI::Runtime::setProperty("LogApplication", "HeadUnit");
-	//CommonAPI::Runtime::setProperty("LibraryBase", "speedsensor");
+	buildCarControlProxy();
+	huService = HeadUnitStubImpl::getInstance();
 }
