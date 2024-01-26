@@ -23,10 +23,10 @@ void buildCarControlProxy()
 
 	std::string domain = "local";
 	std::string instance = "commonapi.CarControl";
-	std::string connection = "client-sample";
+	std::string connection = "client-headunit";
 
 	ccProxy = runtime->buildProxyWithDefaultAttributeExtension<CarControlProxy, CommonAPI::Extensions::AttributeCacheExtension>(domain, instance, connection);
-	std::cout << "Waiting for service to become available." << std::endl;
+	std::cout << "Waiting for CarControl service to become available." << std::endl;
 	while (!ccProxy->isAvailable()) {
 		std::this_thread::sleep_for(std::chrono::microseconds(10));
 	}

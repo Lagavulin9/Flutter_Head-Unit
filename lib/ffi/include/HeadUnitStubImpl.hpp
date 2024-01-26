@@ -10,12 +10,8 @@ using namespace v0::commonapi;
 
 class HeadUnitStubImpl: public HeadUnitStubDefault
 {
-private:
-	static std::shared_ptr<HeadUnitStubImpl> instance;
-	HeadUnitStubImpl();
-
 public:
-	static std::shared_ptr<HeadUnitStubImpl> getInstance();
+	HeadUnitStubImpl();
 	virtual ~HeadUnitStubImpl();
 };
 
