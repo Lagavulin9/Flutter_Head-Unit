@@ -22,8 +22,13 @@ class _MusicPlayerState extends State<MusicPlayer> {
   List<String> files = [];
 
   Future<List<String>> loadFiles() async {
-    var result =
-        await Process.run('find', ['/media', '-type', 'f', '-name', '*.mp3']);
+    var result = await Process.run('find', [
+      '/media/jinholee/1d5e639c-41ca-4cc2-b608-c949797fd1ea/home/team2',
+      '-type',
+      'f',
+      '-name',
+      '*.mp3'
+    ]);
     if (result.exitCode != 0) {
       debugPrint("Error occured: ${result.exitCode}");
       debugPrint(result.stderr);

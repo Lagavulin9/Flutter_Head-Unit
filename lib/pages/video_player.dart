@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
@@ -17,14 +15,17 @@ class VideoPlayer extends StatefulWidget {
 
 class _VideoPlayerState extends State<VideoPlayer> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late final Player player = Player();
-  late VideoController controller = VideoController(player);
 
   List<String> files = [];
 
   Future<List<String>> loadVideos() async {
-    var result =
-        await Process.run('find', ['/media', '-type', 'f', '-name', '*.mkv']);
+    var result = await Process.run('find', [
+      '/media/jinholee/1d5e639c-41ca-4cc2-b608-c949797fd1ea/home/team2',
+      '-type',
+      'f',
+      '-name',
+      '*.mkv'
+    ]);
     if (result.exitCode != 0) {
       debugPrint("Error occured");
       return [];
@@ -40,21 +41,16 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   Future<void> setPlaylist() async {
     await loadVideos();
-    final Playlist playlist =
-        Playlist(files.map((item) => Media(item)).toList());
-    player.open(playlist, play: false);
   }
 
   @override
   void initState() {
     super.initState();
-    player.setPlaylistMode(PlaylistMode.loop);
     //setPlaylist();
   }
 
   @override
   void dispose() {
-    player.dispose();
     super.dispose();
   }
 
@@ -69,90 +65,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
           style: TextStyle(fontSize: 40, color: themeModel.textColor),
         ),
       ),
-      SliverFillRemaining(
-          child: Scaffold(
-        key: _scaffoldKey,
-        drawer: Drawer(
-          child: SizedBox(
-              width: 250,
-              child: FutureBuilder(
-                future: setPlaylist(),
-                builder: (context, snapshot) {
-                  if (player.state.playlist.medias.isEmpty) {
-                    return const CupertinoListSection(
-                        header: Text("Error Occured"));
-                  } else {
-                    return CupertinoListSection.insetGrouped(
-                      header: Text("From device",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color:
-                                  Provider.of<ThemeModel>(context).textColor)),
-                      children: List.generate(files.length, (index) {
-                        final fileName =
-                            basename(player.state.playlist.medias[index].uri);
-                        return CupertinoListTile.notched(
-                          title: Text(
-                            fileName,
-                            style: TextStyle(
-                                color:
-                                    Provider.of<ThemeModel>(context).textColor),
-                          ),
-                          onTap: () {
-                            player.jump(index);
-                          },
-                        );
-                      }),
-                    );
-                  }
-                },
-              )),
-        ),
-        body: Expanded(
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Video(width: 640, height: 360, controller: controller),
-                StreamBuilder(
-                    stream: player.stream.playlist,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Text("Not playing",
-                            style: TextStyle(
-                                fontSize: 30,
-                                color: Provider.of<ThemeModel>(context)
-                                    .textColor));
-                      }
-                      final index = snapshot.data!.index;
-                      final fileName =
-                          basename(player.state.playlist.medias[index].uri);
-                      return SizedBox(
-                        width: 640,
-                        child: Text(
-                          fileName,
-                          style: const TextStyle(fontSize: 30),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      );
-                    })
-              ],
-            ),
-          ),
-        ),
-        floatingActionButton: CupertinoButton(
-          onPressed: () {
-            _scaffoldKey.currentState?.openDrawer();
-          },
-          child: Icon(
-            CupertinoIcons.list_bullet_below_rectangle,
-            size: 50,
-            color: Provider.of<ThemeModel>(context).iconColor,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      ))
+      SliverFillRemaining(child: Container())
     ]);
   }
 }
