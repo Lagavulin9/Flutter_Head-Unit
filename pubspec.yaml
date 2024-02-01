@@ -44,12 +44,6 @@ dependencies:
   rxdart: ^0.27.7
   metadata_god: ^0.5.2+1
   path: ^1.8.3
-  video_player: ^2.6.1
-  video_player_elinux:
-    git:
-      url: https://github.com/sony/flutter-elinux-plugins.git
-      path: packages/video_player
-      ref: main
 
 dev_dependencies:
   flutter_test:
