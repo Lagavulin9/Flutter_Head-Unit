@@ -113,7 +113,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-                Video(width: 640, height: 360, controller: controller),
+                Video(
+                  width: 640,
+                  height: 360,
+                  controller: controller,
+                  controls: MaterialVideoControls,
+                ),
                 StreamBuilder(
                     stream: player.stream.playlist,
                     builder: (context, snapshot) {
