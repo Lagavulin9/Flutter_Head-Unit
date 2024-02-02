@@ -3,19 +3,20 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
+import 'package:flutter_head_unit/video/video_title.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
-class VideoPlayer extends StatefulWidget {
-  const VideoPlayer({super.key});
+class VideoApp extends StatefulWidget {
+  const VideoApp({super.key});
 
   @override
-  State<VideoPlayer> createState() => _VideoPlayerState();
+  State<VideoApp> createState() => _VideoAppState();
 }
 
-class _VideoPlayerState extends State<VideoPlayer> {
+class _VideoAppState extends State<VideoApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late final Player player = Player();
   late VideoController controller = VideoController(player);
@@ -85,19 +86,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
                     return CupertinoListSection.insetGrouped(
                       header: Text("From device",
                           style: TextStyle(
-                              fontSize: 20,
-                              color:
-                                  Provider.of<ThemeModel>(context).textColor)),
+                              fontSize: 20, color: themeModel.textColor)),
                       children: List.generate(files.length, (index) {
                         final fileName =
                             basename(player.state.playlist.medias[index].uri);
                         return CupertinoListTile.notched(
-                          title: Text(
-                            fileName,
-                            style: TextStyle(
-                                color:
-                                    Provider.of<ThemeModel>(context).textColor),
-                          ),
+                          title: Text(fileName,
+                              style: TextStyle(color: themeModel.textColor)),
                           onTap: () {
                             player.jump(index);
                           },
@@ -119,29 +114,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
                   controller: controller,
                   controls: MaterialVideoControls,
                 ),
-                StreamBuilder(
-                    stream: player.stream.playlist,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Text("Not playing",
-                            style: TextStyle(
-                                fontSize: 30,
-                                color: Provider.of<ThemeModel>(context)
-                                    .textColor));
-                      }
-                      final index = snapshot.data!.index;
-                      final fileName =
-                          basename(player.state.playlist.medias[index].uri);
-                      return SizedBox(
-                        width: 640,
-                        child: Text(
-                          fileName,
-                          style: const TextStyle(fontSize: 30),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      );
-                    })
+                VideoTitle(player: player)
               ],
             ),
           ),
@@ -153,7 +126,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
           child: Icon(
             CupertinoIcons.list_bullet_below_rectangle,
             size: 50,
-            color: Provider.of<ThemeModel>(context).iconColor,
+            color: themeModel.iconColor,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
