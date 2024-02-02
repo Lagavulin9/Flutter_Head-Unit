@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:flutter_head_unit/settings/about.dart';
+import 'package:flutter_head_unit/settings/brigtness.dart';
 import 'package:flutter_head_unit/settings/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   int _selected = 0;
   List<Widget> pages = [
-    Expanded(child: Center(child: Text("Add some settings here"))),
+    Container(),
+    BrightnessControl(),
     ThemeSelect(),
     About(),
   ];
@@ -45,7 +47,7 @@ class _SettingsState extends State<Settings> {
                             Text("Display", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.light_mode_outlined),
                         onTap: () => setState(() {
-                          _selected = 0;
+                          _selected = 1;
                         }),
                       ),
                       CupertinoListTile.notched(
@@ -53,7 +55,7 @@ class _SettingsState extends State<Settings> {
                             Text("Theme", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.dark_mode),
                         onTap: () => setState(() {
-                          _selected = 1;
+                          _selected = 2;
                         }),
                       ),
                       CupertinoListTile.notched(
@@ -61,7 +63,7 @@ class _SettingsState extends State<Settings> {
                             Text("About", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.info_outline),
                         onTap: () => setState(() {
-                          _selected = 2;
+                          _selected = 3;
                         }),
                       ),
                     ],
