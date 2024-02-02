@@ -19,4 +19,16 @@ class ThemeModel extends ChangeNotifier {
     bridge.setLightMode(_mode == ThemeMode.light);
     notifyListeners();
   }
+
+  void setLightMode() {
+    _mode = ThemeMode.light;
+    bridge.setLightMode(true);
+    notifyListeners();
+  }
+
+  void setDarkMode() {
+    _mode = ThemeMode.dark;
+    bridge.setLightMode(false);
+    notifyListeners();
+  }
 }

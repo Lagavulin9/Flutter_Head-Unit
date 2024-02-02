@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
+import 'package:flutter_head_unit/settings/about.dart';
+import 'package:flutter_head_unit/settings/theme.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
@@ -11,6 +13,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  int _selected = 0;
+  List<Widget> pages = [
+    Expanded(child: Center(child: Text("Add some settings here"))),
+    ThemeSelect(),
+    About(),
+  ];
   @override
   Widget build(BuildContext context) {
     final themeModel = Provider.of<ThemeModel>(context);
@@ -33,40 +41,33 @@ class _SettingsState extends State<Settings> {
                     backgroundColor: backgroundColor,
                     children: [
                       CupertinoListTile.notched(
-                        title: Text("Wifi", style: TextStyle(color: textColor)),
-                        leading: const Icon(Icons.wifi),
-                        onTap: () => debugPrint("Wifi"),
-                      ),
-                      CupertinoListTile.notched(
-                        title: Text("Bluetooth",
-                            style: TextStyle(color: textColor)),
-                        leading: const Icon(Icons.bluetooth),
-                        onTap: () => debugPrint("Bluetooth"),
-                      ),
-                      CupertinoListTile.notched(
                         title:
                             Text("Display", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.light_mode_outlined),
-                        onTap: () => debugPrint("Display"),
+                        onTap: () => setState(() {
+                          _selected = 0;
+                        }),
                       ),
                       CupertinoListTile.notched(
                         title:
                             Text("Theme", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.dark_mode),
-                        onTap: () =>
-                            Provider.of<ThemeModel>(context, listen: false)
-                                .toggleTheme(),
+                        onTap: () => setState(() {
+                          _selected = 1;
+                        }),
                       ),
                       CupertinoListTile.notched(
                         title:
                             Text("About", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.info_outline),
-                        onTap: () => debugPrint("About"),
+                        onTap: () => setState(() {
+                          _selected = 2;
+                        }),
                       ),
                     ],
                   ),
                 ),
-                Expanded(child: Center(child: Text("Add some settings here"))),
+                pages[_selected],
               ]),
             )
           ]),

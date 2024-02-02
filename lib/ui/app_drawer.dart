@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/music/music_app.dart';
 import 'package:flutter_head_unit/pages/car_info.dart';
-import 'package:flutter_head_unit/pages/settings.dart';
+import 'package:flutter_head_unit/settings/settings.dart';
 import 'package:flutter_head_unit/video/video_app.dart';
 import 'package:flutter_head_unit/provider/app_controller.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
