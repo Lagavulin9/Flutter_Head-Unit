@@ -12,10 +12,10 @@ class MusicApp extends StatefulWidget {
   const MusicApp({super.key});
 
   @override
-  State<MusicApp> createState() => _MusicPlayerState();
+  State<MusicApp> createState() => _MusicAppState();
 }
 
-class _MusicPlayerState extends State<MusicApp> {
+class _MusicAppState extends State<MusicApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final Player player = Player();
 
