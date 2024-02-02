@@ -103,20 +103,24 @@ class _VideoAppState extends State<VideoApp> {
                 },
               )),
         ),
-        body: Expanded(
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Video(
+        body: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              MaterialVideoControlsTheme(
+                normal: const MaterialVideoControlsThemeData(
+                    volumeGesture: true,
+                    bottomButtonBar: [MaterialPositionIndicator()]),
+                fullscreen: const MaterialVideoControlsThemeData(),
+                child: Video(
                   width: 640,
                   height: 360,
                   controller: controller,
                   controls: MaterialVideoControls,
                 ),
-                VideoTitle(player: player)
-              ],
-            ),
+              ),
+              VideoTitle(player: player)
+            ],
           ),
         ),
         floatingActionButton: CupertinoButton(
