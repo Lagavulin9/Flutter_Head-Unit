@@ -4,6 +4,8 @@ import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class ThemeSelect extends StatelessWidget {
+  const ThemeSelect({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeModel>(builder: (context, themeModel, child) {
@@ -18,21 +20,21 @@ class ThemeSelect extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    'assets/unknown-album.png',
+                    'assets/light_crop.png',
                     width: 200,
                     height: 300,
                     fit: BoxFit.fill,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Text(
                   "Light Mode",
                   style: TextStyle(fontSize: 20, color: themeModel.textColor),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 themeModel.mode == ThemeMode.light
-                    ? Icon(CupertinoIcons.check_mark_circled, size: 30)
-                    : Icon(CupertinoIcons.circle, size: 30)
+                    ? const Icon(CupertinoIcons.check_mark_circled, size: 30)
+                    : const Icon(CupertinoIcons.circle, size: 30)
               ],
             ),
             onPressed: () => themeModel.setLightMode(),
@@ -44,21 +46,21 @@ class ThemeSelect extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    'assets/unknown-album.png',
+                    'assets/dark_crop.png',
                     width: 200,
                     height: 300,
                     fit: BoxFit.fill,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Text(
                   "Dark Mode",
                   style: TextStyle(fontSize: 20, color: themeModel.textColor),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 themeModel.mode == ThemeMode.dark
-                    ? Icon(CupertinoIcons.check_mark_circled, size: 30)
-                    : Icon(CupertinoIcons.circle, size: 30)
+                    ? const Icon(CupertinoIcons.check_mark_circled, size: 30)
+                    : const Icon(CupertinoIcons.circle, size: 30)
               ],
             ),
             onPressed: () => themeModel.setDarkMode(),
