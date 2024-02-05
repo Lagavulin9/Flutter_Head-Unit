@@ -24,8 +24,8 @@ class _VideoAppState extends State<VideoApp> {
   List<String> files = [];
 
   Future<List<String>> loadVideos() async {
-    var result = await Process.run(
-        'find', ['/home/jinholee/Videos', '-type', 'f', '-name', '*.mkv']);
+    var result =
+        await Process.run('find', ['/media', '-type', 'f', '-name', '*.mkv']);
     if (result.exitCode != 0) {
       debugPrint("Error occured");
       return [];
@@ -62,79 +62,83 @@ class _VideoAppState extends State<VideoApp> {
   @override
   Widget build(BuildContext context) {
     final themeModel = Provider.of<ThemeModel>(context);
-    return CustomScrollView(physics: NeverScrollableScrollPhysics(), slivers: [
-      CupertinoSliverNavigationBar(
-        automaticallyImplyLeading: false,
-        largeTitle: Text(
-          "Video",
-          style: TextStyle(fontSize: 40, color: themeModel.textColor),
-        ),
-      ),
-      SliverFillRemaining(
-          child: Scaffold(
-        key: _scaffoldKey,
-        drawer: Drawer(
-          child: SizedBox(
-              width: 250,
-              child: FutureBuilder(
-                future: setPlaylist(),
-                builder: (context, snapshot) {
-                  if (player.state.playlist.medias.isEmpty) {
-                    return const CupertinoListSection(
-                        header: Text("Error Occured"));
-                  } else {
-                    return CupertinoListSection.insetGrouped(
-                      header: Text("From device",
-                          style: TextStyle(
-                              fontSize: 20, color: themeModel.textColor)),
-                      children: List.generate(files.length, (index) {
-                        final fileName =
-                            basename(player.state.playlist.medias[index].uri);
-                        return CupertinoListTile.notched(
-                          title: Text(fileName,
-                              style: TextStyle(color: themeModel.textColor)),
-                          onTap: () {
-                            player.jump(index);
-                          },
+    return CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        slivers: [
+          CupertinoSliverNavigationBar(
+            automaticallyImplyLeading: false,
+            largeTitle: Text(
+              "Video",
+              style: TextStyle(fontSize: 40, color: themeModel.textColor),
+            ),
+          ),
+          SliverFillRemaining(
+              child: Scaffold(
+            key: _scaffoldKey,
+            drawer: Drawer(
+              child: SizedBox(
+                  width: 250,
+                  child: FutureBuilder(
+                    future: setPlaylist(),
+                    builder: (context, snapshot) {
+                      if (player.state.playlist.medias.isEmpty) {
+                        return const CupertinoListSection(
+                            header: Text("Error Occured"));
+                      } else {
+                        return CupertinoListSection.insetGrouped(
+                          header: Text("From device",
+                              style: TextStyle(
+                                  fontSize: 20, color: themeModel.textColor)),
+                          children: List.generate(files.length, (index) {
+                            final fileName = basename(
+                                player.state.playlist.medias[index].uri);
+                            return CupertinoListTile.notched(
+                              title: Text(fileName,
+                                  style:
+                                      TextStyle(color: themeModel.textColor)),
+                              onTap: () {
+                                player.jump(index);
+                              },
+                            );
+                          }),
                         );
-                      }),
-                    );
-                  }
-                },
-              )),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              MaterialVideoControlsTheme(
-                normal: const MaterialVideoControlsThemeData(
-                    volumeGesture: true,
-                    bottomButtonBar: [MaterialPositionIndicator()]),
-                fullscreen: const MaterialVideoControlsThemeData(),
-                child: Video(
-                  width: 640,
-                  height: 360,
-                  controller: controller,
-                  controls: MaterialVideoControls,
-                ),
+                      }
+                    },
+                  )),
+            ),
+            body: Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  MaterialVideoControlsTheme(
+                    normal: const MaterialVideoControlsThemeData(
+                        volumeGesture: true,
+                        bottomButtonBar: [MaterialPositionIndicator()]),
+                    fullscreen: const MaterialVideoControlsThemeData(),
+                    child: Video(
+                      width: 640,
+                      height: 360,
+                      controller: controller,
+                      controls: MaterialVideoControls,
+                    ),
+                  ),
+                  VideoTitle(player: player)
+                ],
               ),
-              VideoTitle(player: player)
-            ],
-          ),
-        ),
-        floatingActionButton: CupertinoButton(
-          onPressed: () {
-            _scaffoldKey.currentState?.openDrawer();
-          },
-          child: Icon(
-            CupertinoIcons.list_bullet_below_rectangle,
-            size: 50,
-            color: themeModel.iconColor,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      ))
-    ]);
+            ),
+            floatingActionButton: CupertinoButton(
+              onPressed: () {
+                _scaffoldKey.currentState?.openDrawer();
+              },
+              child: Icon(
+                CupertinoIcons.list_bullet_below_rectangle,
+                size: 50,
+                color: themeModel.iconColor,
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.startFloat,
+          ))
+        ]);
   }
 }

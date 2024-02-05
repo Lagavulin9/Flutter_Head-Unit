@@ -40,7 +40,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   onTap: () {
                     Provider.of<AppController>(context, listen: false)
-                        .updatePage(MusicApp());
+                        .updatePage(const MusicApp());
                     Navigator.pop(context);
                   }),
               ListTile(
@@ -51,7 +51,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   onTap: () {
                     Provider.of<AppController>(context, listen: false)
-                        .updatePage(VideoApp());
+                        .updatePage(const VideoApp());
                     Navigator.pop(context);
                   }),
               ListTile(
@@ -62,7 +62,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   onTap: () {
                     Provider.of<AppController>(context, listen: false)
-                        .updatePage(CarInfo());
+                        .updatePage(const CarInfo());
                     Navigator.pop(context);
                   }),
               ListTile(
@@ -73,7 +73,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   onTap: () {
                     Provider.of<AppController>(context, listen: false)
-                        .updatePage(Settings());
+                        .updatePage(const Settings());
                     Navigator.pop(context);
                   })
             ],

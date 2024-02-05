@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/provider/theme_provider.dart';
 import 'package:flutter_head_unit/settings/about.dart';
-import 'package:flutter_head_unit/settings/brigtness.dart';
 import 'package:flutter_head_unit/settings/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +16,7 @@ class _SettingsState extends State<Settings> {
   int _selected = 0;
   List<Widget> pages = [
     Container(),
-    BrightnessControl(),
-    ThemeSelect(),
+    const ThemeSelect(),
     About(),
   ];
   @override
