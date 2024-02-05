@@ -20,7 +20,7 @@ class ThemeSelect extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    'assets/light_crop.png',
+                    'assets/images/light_crop.png',
                     width: 200,
                     height: 300,
                     fit: BoxFit.fill,
@@ -46,7 +46,7 @@ class ThemeSelect extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    'assets/dark_crop.png',
+                    'assets/images/dark_crop.png',
                     width: 200,
                     height: 300,
                     fit: BoxFit.fill,

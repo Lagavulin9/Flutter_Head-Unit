@@ -19,7 +19,7 @@ void _initMetaData() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
   MetadataGod.initialize();
-  ByteData data = await rootBundle.load('assets/unknown-album.png');
+  ByteData data = await rootBundle.load('assets/images/unknown-album.png');
   Uint8List bytes = data.buffer.asUint8List();
   CommonAPI bridge = CommonAPI();
   bridge.setMetaData(bytes, "Not Playing", "");

@@ -17,7 +17,7 @@ class AlbumCover extends StatelessWidget {
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Image.asset(
-        'assets/unknown-album.png',
+        'assets/images/unknown-album.png',
         width: 200,
         height: 200,
       ),

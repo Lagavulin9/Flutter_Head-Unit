@@ -47,7 +47,8 @@ class PlaylistView extends StatelessWidget {
                             final metadata = snapshot.data;
                             return CupertinoListTile.notched(
                               leading: metadata?.picture?.data == null
-                                  ? Image.asset('assets/unknown-album.png')
+                                  ? Image.asset(
+                                      'assets/images/unknown-album.png')
                                   : Image(
                                       image:
                                           MemoryImage(metadata!.picture!.data)),
