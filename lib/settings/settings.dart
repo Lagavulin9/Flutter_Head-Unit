@@ -42,18 +42,10 @@ class _SettingsState extends State<Settings> {
                     children: [
                       CupertinoListTile.notched(
                         title:
-                            Text("Display", style: TextStyle(color: textColor)),
-                        leading: const Icon(Icons.light_mode_outlined),
-                        onTap: () => setState(() {
-                          _selected = 1;
-                        }),
-                      ),
-                      CupertinoListTile.notched(
-                        title:
                             Text("Theme", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.dark_mode),
                         onTap: () => setState(() {
-                          _selected = 2;
+                          _selected = 1;
                         }),
                       ),
                       CupertinoListTile.notched(
@@ -61,7 +53,7 @@ class _SettingsState extends State<Settings> {
                             Text("About", style: TextStyle(color: textColor)),
                         leading: const Icon(Icons.info_outline),
                         onTap: () => setState(() {
-                          _selected = 3;
+                          _selected = 2;
                         }),
                       ),
                     ],
