@@ -19,25 +19,20 @@ class _MusicAppState extends State<MusicApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final Player player = Player();
 
-  List<String> files = [
-    'assets/music/Axol - ILY.mp3',
-    'assets/music/Egzod & Maestro Chives - Royalty (Don Diablo Remix).mp3',
-    'assets/music/Hyri - Nocturnal.mp3',
-    'assets/music/Omar Varela, Xavi & Gi - Stronger (feat. Miss Lina).mp3'
-  ];
+  List<String> files = [];
 
   Future<List<String>> loadFiles() async {
-    var result =
-        await Process.run('find', ['/media', '-type', 'f', '-name', '*.mp3']);
+    var result = await Process.run(
+        'find', ['/media', '/home', '-type', 'f', '-name', '*.mp3']);
     if (result.exitCode != 0) {
       debugPrint("Error occured: ${result.exitCode}");
       debugPrint(result.stderr);
-      return [];
-    }
-    var stdout = result.stdout as String;
-    files.addAll(stdout.split('\n'));
-    if (files.isNotEmpty && files.last.isEmpty) {
-      files.removeLast();
+    } else {
+      var stdout = result.stdout as String;
+      files.addAll(stdout.split('\n'));
+      if (files.isNotEmpty && files.last.isEmpty) {
+        files.removeLast();
+      }
     }
     files.sort();
     return files;
