@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_head_unit/music/music_app.dart';
-import 'package:flutter_head_unit/pages/car_info.dart';
 import 'package:flutter_head_unit/settings/settings.dart';
 import 'package:flutter_head_unit/video/video_app.dart';
 import 'package:flutter_head_unit/provider/app_controller.dart';
@@ -52,17 +51,6 @@ class AppDrawer extends StatelessWidget {
                   onTap: () {
                     Provider.of<AppController>(context, listen: false)
                         .updatePage(const VideoApp());
-                    Navigator.pop(context);
-                  }),
-              ListTile(
-                  leading: const Icon(CupertinoIcons.car_detailed, size: 30),
-                  title: const Text(
-                    "Car Info",
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  onTap: () {
-                    Provider.of<AppController>(context, listen: false)
-                        .updatePage(const CarInfo());
                     Navigator.pop(context);
                   }),
               ListTile(
