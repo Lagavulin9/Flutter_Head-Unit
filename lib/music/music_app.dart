@@ -22,8 +22,8 @@ class _MusicAppState extends State<MusicApp> {
   List<String> files = [];
 
   Future<List<String>> loadFiles() async {
-    var result = await Process.run(
-        'find', ['/media', '/home', '-type', 'f', '-name', '*.mp3']);
+    var result = await Process.run('find',
+        ['/run/media', '/usr/share/flutter', '-type', 'f', '-name', '*.mp3']);
     if (result.exitCode != 0) {
       debugPrint("Error occured: ${result.exitCode}");
       debugPrint(result.stderr);
