@@ -10,7 +10,7 @@ class CarInfo extends StatefulWidget {
 class _CarInfoState extends State<CarInfo> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text("CarInfo"),
     );
   }

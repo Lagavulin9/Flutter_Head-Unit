@@ -17,25 +17,37 @@ class About extends StatelessWidget {
     return Consumer<ThemeModel>(
       builder: (context, theme, child) {
         final textColor = theme.textColor;
+        final ScrollController scrollController = ScrollController();
         return Expanded(
-          child: ListView(
-            children: [
-              CupertinoListSection.insetGrouped(
-                header: Text("Software", style: TextStyle(color: textColor)),
+          child: Container(
+            color: theme.mode == ThemeMode.light
+                ? CupertinoColors.systemGroupedBackground
+                : CupertinoColors.black,
+            child: GestureDetector(
+              onVerticalDragUpdate: (details) {
+                scrollController.position.jumpTo(
+                  scrollController.position.pixels - details.primaryDelta!,
+                );
+              },
+              child: ListView(
+                controller: scrollController,
                 children: [
-                  CupertinoListTile.notched(
-                    title: Text("Version", style: TextStyle(color: textColor)),
-                    trailing: const Text("1.0"),
+                  CupertinoListSection.insetGrouped(
+                    header:
+                        Text("Software", style: TextStyle(color: textColor)),
+                    children: [
+                      CupertinoListTile.notched(
+                        title:
+                            Text("Version", style: TextStyle(color: textColor)),
+                        trailing: const Text("1.0"),
+                      ),
+                    ],
                   ),
+                  ...generateDevelopersList(developers, textColor),
+                  Container(height: 100),
                 ],
               ),
-              ...generateDevelopersList(developers, textColor),
-              Container(
-                  height: 100,
-                  color: theme.mode == ThemeMode.light
-                      ? CupertinoColors.systemGroupedBackground
-                      : CupertinoColors.black),
-            ],
+            ),
           ),
         );
       },

@@ -14,6 +14,8 @@ class PlaylistView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeModel = Provider.of<ThemeModel>(context);
+    // ScrollController를 생성합니다.
+    final ScrollController controller = ScrollController();
     return Drawer(
       child: Container(
         color: themeModel.backgroundColor,
@@ -24,45 +26,52 @@ class PlaylistView extends StatelessWidget {
                 "No media",
                 style: TextStyle(fontSize: 20),
               ))
-            : SingleChildScrollView(
-                child: CupertinoListSection.insetGrouped(
-                  backgroundColor: themeModel.backgroundColor,
-                  header: Text(
-                    "From device",
-                    style: TextStyle(color: themeModel.textColor),
+            : GestureDetector(
+                onVerticalDragUpdate: (details) {
+                  controller.position
+                      .jumpTo(controller.position.pixels - details.delta.dy);
+                },
+                child: SingleChildScrollView(
+                  controller: controller,
+                  child: CupertinoListSection.insetGrouped(
+                    backgroundColor: themeModel.backgroundColor,
+                    header: Text(
+                      "From device",
+                      style: TextStyle(color: themeModel.textColor),
+                    ),
+                    children: List.generate(files.length, (index) {
+                      final item = files[index];
+                      return FutureBuilder(
+                          future: MetadataGod.readMetadata(file: item),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CupertinoListTile.notched(
+                                  title: Text("Reading..."));
+                            } else if (snapshot.hasError || !snapshot.hasData) {
+                              return const CupertinoListTile.notched(
+                                  title: Text("Error Occurred"));
+                            } else {
+                              final metadata = snapshot.data;
+                              return CupertinoListTile.notched(
+                                leading: metadata?.picture?.data == null
+                                    ? Image.asset(
+                                        'assets/images/unknown-album.png')
+                                    : Image(
+                                        image: MemoryImage(
+                                            metadata!.picture!.data)),
+                                title: Text(
+                                  metadata?.title ?? "Unknown Title",
+                                  style: TextStyle(color: themeModel.textColor),
+                                ),
+                                onTap: () {
+                                  player.jump(index);
+                                },
+                              );
+                            }
+                          });
+                    }).toList(),
                   ),
-                  children: List.generate(files.length, (index) {
-                    final item = files[index];
-                    return FutureBuilder(
-                        future: MetadataGod.readMetadata(file: item),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CupertinoListTile.notched(
-                                title: Text("Reading..."));
-                          } else if (snapshot.hasError || !snapshot.hasData) {
-                            return const CupertinoListTile.notched(
-                                title: Text("Error Occurred"));
-                          } else {
-                            final metadata = snapshot.data;
-                            return CupertinoListTile.notched(
-                              leading: metadata?.picture?.data == null
-                                  ? Image.asset(
-                                      'assets/images/unknown-album.png')
-                                  : Image(
-                                      image:
-                                          MemoryImage(metadata!.picture!.data)),
-                              title: Text(
-                                metadata?.title ?? "Unknown Title",
-                                style: TextStyle(color: themeModel.textColor),
-                              ),
-                              onTap: () {
-                                player.jump(index);
-                              },
-                            );
-                          }
-                        });
-                  }).toList(),
                 ),
               ),
       ),

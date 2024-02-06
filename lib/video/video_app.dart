@@ -62,6 +62,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   Widget build(BuildContext context) {
     final themeModel = Provider.of<ThemeModel>(context);
+    final ScrollController scrollController = ScrollController();
     return CustomScrollView(
         physics: const NeverScrollableScrollPhysics(),
         slivers: [
@@ -76,35 +77,48 @@ class _VideoAppState extends State<VideoApp> {
               child: Scaffold(
             key: _scaffoldKey,
             drawer: Drawer(
-              child: SizedBox(
-                  width: 250,
-                  child: FutureBuilder(
-                    future: setPlaylist(),
-                    builder: (context, snapshot) {
-                      if (player.state.playlist.medias.isEmpty) {
-                        return const CupertinoListSection(
-                            header: Text("Error Occured"));
-                      } else {
-                        return CupertinoListSection.insetGrouped(
-                          header: Text("From device",
-                              style: TextStyle(
-                                  fontSize: 20, color: themeModel.textColor)),
-                          children: List.generate(files.length, (index) {
-                            final fileName = basename(
-                                player.state.playlist.medias[index].uri);
-                            return CupertinoListTile.notched(
-                              title: Text(fileName,
-                                  style:
-                                      TextStyle(color: themeModel.textColor)),
-                              onTap: () {
-                                player.jump(index);
-                              },
-                            );
-                          }),
-                        );
-                      }
-                    },
-                  )),
+              child: Container(
+                color: themeModel.backgroundColor,
+                child: FutureBuilder(
+                  future: setPlaylist(),
+                  builder: (context, snapshot) {
+                    if (player.state.playlist.medias.isEmpty) {
+                      return const CupertinoListSection(
+                          header: Text("Error Occured"));
+                    } else {
+                      return GestureDetector(
+                        onVerticalDragUpdate: (details) {
+                          scrollController.position.jumpTo(
+                            scrollController.position.pixels -
+                                details.primaryDelta!,
+                          );
+                        },
+                        child: SingleChildScrollView(
+                          controller: scrollController,
+                          child: CupertinoListSection.insetGrouped(
+                            backgroundColor: themeModel.backgroundColor,
+                            header: Text("From device",
+                                style: TextStyle(
+                                    fontSize: 20, color: themeModel.textColor)),
+                            children: List.generate(files.length, (index) {
+                              final fileName = basename(
+                                  player.state.playlist.medias[index].uri);
+                              return CupertinoListTile.notched(
+                                title: Text(fileName,
+                                    style:
+                                        TextStyle(color: themeModel.textColor)),
+                                onTap: () {
+                                  player.jump(index);
+                                },
+                              );
+                            }),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
             ),
             body: Center(
               child: Column(
