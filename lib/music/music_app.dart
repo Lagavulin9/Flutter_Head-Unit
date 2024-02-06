@@ -19,7 +19,12 @@ class _MusicAppState extends State<MusicApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final Player player = Player();
 
-  List<String> files = [];
+  List<String> files = [
+    'assets/music/Axol - ILY.mp3',
+    'assets/music/Egzod & Maestro Chives - Royalty (Don Diablo Remix).mp3',
+    'assets/music/Hyri - Nocturnal.mp3',
+    'assets/music/Omar Varela, Xavi & Gi - Stronger (feat. Miss Lina).mp3'
+  ];
 
   Future<List<String>> loadFiles() async {
     var result =
@@ -30,7 +35,7 @@ class _MusicAppState extends State<MusicApp> {
       return [];
     }
     var stdout = result.stdout as String;
-    files = stdout.split('\n');
+    files.addAll(stdout.split('\n'));
     if (files.isNotEmpty && files.last.isEmpty) {
       files.removeLast();
     }
@@ -40,8 +45,7 @@ class _MusicAppState extends State<MusicApp> {
 
   Future<void> setPlaylist() async {
     await loadFiles();
-    final Playlist playlist =
-        Playlist(files.map((item) => Media(item)).toList());
+    Playlist playlist = Playlist(files.map((item) => Media(item)).toList());
     player.open(playlist, play: false);
     setState(() {});
   }
