@@ -24,8 +24,8 @@ class _VideoAppState extends State<VideoApp> {
   List<String> files = [];
 
   Future<List<String>> loadVideos() async {
-    var result =
-        await Process.run('find', ['/media', '-type', 'f', '-name', '*.mkv']);
+    var result = await Process.run(
+        'find', ['/media', '/run/media', '-type', 'f', '-name', '*.mkv']);
     if (result.exitCode != 0) {
       debugPrint("Error occured");
       return [];
@@ -84,7 +84,7 @@ class _VideoAppState extends State<VideoApp> {
                   builder: (context, snapshot) {
                     if (player.state.playlist.medias.isEmpty) {
                       return const CupertinoListSection(
-                          header: Text("Error Occured"));
+                          header: Text("No media"));
                     } else {
                       return GestureDetector(
                         onVerticalDragUpdate: (details) {
