@@ -21,8 +21,8 @@ class ThemeSelect extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
                     'assets/images/light_crop.png',
-                    width: 280,
-                    height: 400,
+                    width: 200,
+                    height: 300,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -47,8 +47,8 @@ class ThemeSelect extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
                     'assets/images/dark_crop.png',
-                    width: 280,
-                    height: 400,
+                    width: 200,
+                    height: 300,
                     fit: BoxFit.cover,
                   ),
                 ),
