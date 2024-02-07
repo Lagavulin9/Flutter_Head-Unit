@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_head_unit/music/music_app.dart';
+import 'package:flutter_head_unit/common/welcome.dart';
 
 class AppController extends ChangeNotifier {
-  Widget _currentPage = const MusicApp();
+  Widget _currentPage = const WelcomePage();
 
   Widget get currentPage => _currentPage;
 
