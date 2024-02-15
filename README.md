@@ -3,14 +3,29 @@ This project is part of DES_03_Head-Unit to provide infotainment feature.
 Flutter was used to implement front end application.
 It uses CommonAPI and SOME/IP binding as IPC
 
+# Table of Contents
+- [Features](#features)
+- [Dependencies](#dendencies)
+- [Gear Selection](#gear-selection)
+- [Music Player](#music-player)
+- [Video Player](#video-player)
+- [Dark Mode](#dark-mode)
+- [FFI](#ffi)
+- [FIDL](#fidl)
+- [References](#references)
+
 # Features
-- Gear Selection
+- [Gear Selection](#gear-selection)<br/>
+Head-Unit application is capable of setting gears through touch screen.
 
-- Music Player
+- [Music Player](#music-player)<br/>
+Head-Unit application can play your favourite mp3 musics.<br/> How? Just plug in your USB!
 
-- Video Player
+- [Video Player](#video-player)<br/>
+Head-Unit application can not only play music but also your favourite vidoes just like the music player.
 
-- Dark Mode
+- [Dark Mode](#dark-mode)<br/>
+Is the screen too bright for your eyes?<br/> Don't worry! Head-Unit application support dark mode.
 
 - USB media
 
@@ -69,7 +84,7 @@ Video player uses `MaterialVideoControls` controller type since infotainment sys
 User can choose theme between light mode or dark mode. [ChangeNotifier](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html) was used to implement this feature, since cupertino widgets don't share same attributes in material app, it was necessary to override some attributes manually.
 
 # FFI
-CommonAPI-someip is used to communicate with other applications like CarControl and Dashboard applications. To build proxy and stub for CommonAPI, custom plugin is generated in the flutter build process. Source codes and CMakeLists.txt for this plugin is located in `lib/ffi` directory.
+Foreign function interface(FFI) is necessary to use CommonAPI since flutter does not support it directly like dbus. CommonAPI-someip is used to communicate with other applications like CarControl and Dashboard applications. To build proxy and stub for CommonAPI, custom plugin is generated in the flutter build process. Source codes and CMakeLists.txt for this plugin is located in `lib/ffi` directory.
 
 ```mermaid
 sequenceDiagram
@@ -107,3 +122,9 @@ libHeadUnit-someip.so provides proxy for other applications. In `HeadUnit.fidl` 
 > On Dashboard
 ![dashboard_dark](https://github.com/Lagavulin9/Flutter_Head-Unit/assets/56917072/9ba994c0-d10e-4e77-a7ae-244a4b828c52)
 Widgets are updated on other applications also!
+
+# References
+- [DES_Head-Unit](https://github.com/SEA-ME/DES_Head-Unit)
+- [vsomeip in 10 minutes](https://github.com/COVESA/vsomeip/wiki/vsomeip-in-10-minutes)
+- [CommonAPI wiki](https://github.com/COVESA/capicxx-core-tools/wiki)
+- [Flutter FFI](https://docs.flutter.dev/platform-integration/android/c-interop)
