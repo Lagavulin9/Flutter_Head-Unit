@@ -19,6 +19,8 @@ include_directories(
   ./include
   ./src-gen/core
   ./src-gen/someip
+  ~/DummyAPI/cf/src-gen/core
+  ~/DummyAPI/cf/src-gen/someip
   ${CANRECEIVER_INCLUDE_DIRS}
   ${CARCONTROL_INCLUDE_DIRS}
   ${CARINFO_INCLUDE_DIRS}
@@ -32,6 +34,7 @@ add_library(HeadUnit-someip
   SHARED
   src/commonapi.cpp
   src/CarControlProxy.cpp
+  src/ParkDistanceControlProxy.cpp
   src/HeadUnitStubImpl.cpp
   ${PRJ_SOMEIP_LIB_SRCS}
 )
