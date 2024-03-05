@@ -4,12 +4,23 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 
+final class SonarStruct extends Struct {
+  @Uint32()
+  external int left;
+  @Uint32()
+  external int middle;
+  @Uint32()
+  external int right;
+}
+
 class CommonAPI {
   static final CommonAPI _instance = CommonAPI._privateConstructor();
   late final DynamicLibrary libffi;
   late final Function _init;
   late final Function _subscribeControl;
+  late final Function _subscribePDC;
   late final Function _getGearUtf8;
+  late final Function _getSonar;
   late final Function _setGear;
   late final Function _setLightMode;
   late final Function _setUnit;
@@ -23,9 +34,15 @@ class CommonAPI {
     _subscribeControl = libffi
         .lookup<NativeFunction<Void Function()>>('subscribe_control')
         .asFunction<void Function()>();
+    _subscribePDC = libffi
+        .lookup<NativeFunction<Void Function()>>('subscribe_pdc')
+        .asFunction<void Function()>();
     _getGearUtf8 = libffi
         .lookup<NativeFunction<Pointer<Utf8> Function()>>('getGear')
         .asFunction<Pointer<Utf8> Function()>();
+    _getSonar = libffi
+        .lookup<NativeFunction<SonarStruct Function()>>('getSonar')
+        .asFunction<SonarStruct Function()>();
     _setGear = libffi
         .lookup<NativeFunction<Void Function(Pointer<Utf8>)>>('setGear')
         .asFunction<void Function(Pointer<Utf8>)>();
@@ -49,6 +66,7 @@ class CommonAPI {
     _initializeFFI();
     _init();
     _subscribeControl();
+    _subscribePDC();
   }
 
   factory CommonAPI() {
@@ -83,5 +101,9 @@ class CommonAPI {
         uint8_ptr, image.length, artist.toNativeUtf8(), title.toNativeUtf8());
     malloc.free(uint8_ptr);
     debugPrint("setMetaData called");
+  }
+
+  SonarStruct getSonar() {
+    return _getSonar();
   }
 }
