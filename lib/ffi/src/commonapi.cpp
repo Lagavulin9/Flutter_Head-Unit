@@ -7,7 +7,6 @@
 #include <CommonAPI/AttributeCacheExtension.hpp>
 
 void buildCarControlProxy();
-void buildPDCProxy();
 void registerHeadUnitService();
 
 EXPORT
@@ -17,6 +16,5 @@ void init()
 	CommonAPI::Runtime::setProperty("LogContext", "HeadUnit");
 	CommonAPI::Runtime::setProperty("LogApplication", "HeadUnit");
 	buildCarControlProxy();
-	buildPDCProxy();
 	registerHeadUnitService();
 }
