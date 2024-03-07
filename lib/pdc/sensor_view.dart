@@ -1,5 +1,5 @@
+import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_head_unit/pdc/radio.dart';
 
 class SensorView extends StatefulWidget {
   const SensorView({super.key});
@@ -15,13 +15,38 @@ class _SensorViewState extends State<SensorView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 150),
-          CustomPaint(
-            painter: OpenPainter(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Transform.rotate(
+                angle: math.pi / 4,
+                origin: Offset(-50, 60),
+                child: Icon(
+                  CupertinoIcons.radiowaves_left,
+                  size: 150,
+                ),
+              ),
+              Transform.rotate(
+                angle: math.pi / 2,
+                origin: Offset(-15, 0),
+                child: Icon(
+                  CupertinoIcons.radiowaves_left,
+                  size: 150,
+                ),
+              ),
+              Transform.rotate(
+                angle: 3 * math.pi / 4,
+                origin: Offset(-38, 12),
+                child: Icon(
+                  CupertinoIcons.radiowaves_left,
+                  size: 150,
+                ),
+              )
+            ],
           ),
           Image.asset(
             'assets/images/top_view.png',
-            scale: 4,
+            scale: 2.5,
           )
         ],
       ),
