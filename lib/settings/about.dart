@@ -8,8 +8,10 @@ class About extends StatelessWidget {
 
   final List<Map<String, dynamic>> developers = [
     {"name": "Jinhong Lee", "github": "Lagavulin9"},
-    {"name": "Kian Warias", "github": "Kianwasabi"},
     {"name": "Seungwoo Lee", "github": "SeungWoo-L"},
+    {"name": "Niklas Dohmann", "github": "NikDoh"},
+    {"name": "Minchan Jung", "github": "MC00614"},
+    {"name": "Kian Warias", "github": "Kianwasabi"},
   ];
 
   @override
