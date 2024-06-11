@@ -13,6 +13,7 @@ set(MAJOR_VERSION 0)
 set(MINOR_VERSION 1)
 
 include_directories(
+  ./lib/ffi/include
   ./lib/ffi/src-gen/core
   ./lib/ffi/src-gen/someip
   ${COMMONAPI_INCLUDE_DIRS}
