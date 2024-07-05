@@ -16,7 +16,7 @@ class CommonAPI {
   late final Function _setMetaData;
 
   bool _initializeFFI() {
-    libffi = DynamicLibrary.open("libHeadUnit-someip.so");
+    libffi = DynamicLibrary.open("libmyffi.so");
     _init = libffi
         .lookup<NativeFunction<Void Function()>>('init')
         .asFunction<void Function()>();

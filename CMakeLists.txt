@@ -13,26 +13,33 @@ set(MAJOR_VERSION 0)
 set(MINOR_VERSION 1)
 
 include_directories(
-  ./include
-  ./src-gen/core
-  ./src-gen/someip
+  ./lib/ffi/include
+  ./lib/ffi/src-gen/core
+  ./lib/ffi/src-gen/someip
   ${COMMONAPI_INCLUDE_DIRS}
   ${COMMONAPI_SOMEIP_INCLUDE_DIRS}
 )
 
 add_library(myffi
   SHARED
-  src/commonapi.cpp
-  src/CarControlProxy.cpp
-  src/HeadUnitStubImpl.cpp
+  ./lib/ffi/src/commonapi.cpp
+  ./lib/ffi/src/CarControlProxy.cpp
+  ./lib/ffi/src/HeadUnitStubImpl.cpp
 )
 target_link_libraries(myffi CommonAPI)
 
 ### Library Sources ###
-FILE(GLOB CARCONTROL_LIB_SRCS ./src-gen/someip/v0/commonapi/CarControl*.cpp)
+FILE(GLOB CARCONTROL_LIB_SRCS ./lib/ffi/src-gen/someip/v0/commonapi/CarControl*.cpp)
 add_library(CarControl-someip SHARED ${CARCONTROL_LIB_SRCS})
 target_link_libraries(CarControl-someip CommonAPI CommonAPI-SomeIP)
 
-FILE(GLOB HEADUNIT_LIB_SRCS ./src-gen/someip/v0/commonapi/HeadUnit*.cpp)
+FILE(GLOB HEADUNIT_LIB_SRCS ./lib/ffi/src-gen/someip/v0/commonapi/HeadUnit*.cpp)
 add_library(HeadUnit-someip SHARED ${HEADUNIT_LIB_SRCS})
 target_link_libraries(HeadUnit-someip CommonAPI CommonAPI-SomeIP)
+
+# Include GNUInstallDirs to use standard install directories
+include(GNUInstallDirs)
+
+# Install libraries
+install(TARGETS myffi CarControl-someip HeadUnit-someip
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
