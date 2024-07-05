@@ -1,5 +1,5 @@
 # Flutter HeadUnit
-This project is part of DES_03_Head-Unit to provide infotainment feature.
+This project is part of DES_03_Head-Unit and DES_04_PDC to provide infotainment feature.
 Flutter was used to implement front end application.
 It uses CommonAPI and SOME/IP binding as IPC
 
@@ -35,7 +35,6 @@ All these applications should be installed in your linux build host to build thi
 - [vSOME/IP](https://github.com/COVESA/vsomeip) v3.4.10
 - [CommonAPI Core Runtime](https://github.com/COVESA/capicxx-core-runtime) v3.2.3
 - [CommonAPI SOME/IP Runtime](https://github.com/COVESA/capicxx-someip-runtime) v3.2.3
-- [CarControl](https://github.com/kianwasabi/car_control)
 - libmpv
 
 # Gear Selection
